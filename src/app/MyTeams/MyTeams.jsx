@@ -25,6 +25,15 @@ function MyTeams() {
                             Card content
                         </Card>
                     </Col>
+                    <Col lg={{span:10, offset:11}} xs={{span:16}}>
+                        <Card 
+                            title="teste" 
+                            className="radius-modify most-picked" 
+                            bordered={true}
+                            extra={<Button>More</Button>}>
+                            Card content
+                        </Card>
+                    </Col>
                 </Row>
             </div>
         </>
