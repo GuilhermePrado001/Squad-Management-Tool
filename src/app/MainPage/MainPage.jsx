@@ -86,16 +86,6 @@ function MainPage() {
         setRowData(dataSource.filter((item) => item.key !== key))
     }
 
-    const handleAdd = () => {
-        const newData = {
-            key: rowData.length + 1,
-            name: "Guilherme",
-            description: "Sumaré"
-        }
-
-        setRowData([...rowData, newData])
-    }
-
     return (
         <>
             <div className="site-page-myteams">
@@ -106,9 +96,11 @@ function MainPage() {
                             className="radius-modify teams-card"
                             bordered={true}
                             extra={
-                                <Button className="addBtn radius-modify" onClick={handleAdd}>
-                                    <PlusOutlined className="plus-icon" />
-                                </Button>
+                                <Link to='/create'>
+                                    <Button className="addBtn radius-modify">
+                                        <PlusOutlined className="plus-icon" />
+                                    </Button>
+                                </Link>
                             }>
                             <MyTeam data={rowData} columns={columns} />
                         </Card>

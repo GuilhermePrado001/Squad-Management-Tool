@@ -3,6 +3,8 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import MainPage from '../MainPage/MainPage';
 import venturusIcon from '../../assets/img/venturus_logo_header.png'
+import CreatePage from '../CreatePage/CreatePage';
+import CardTitle from '../../components/CardTitle/CardTitle';
 
 
 function Layout() {
@@ -21,8 +23,8 @@ function Layout() {
                             exact
                         />
                         <Route
-                            path="/edit"
-                            render={() => <h1>passou 2</h1>}
+                            path="/create"
+                            render={() => <CreatePage title={<CardTitle title="Create Team"/>} />}
                             exact
                         />
                     </Switch>
