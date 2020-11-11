@@ -1,17 +1,19 @@
+@import '../../sass/main.scss';
+
 .site-page-header {
-    height: 2.9rem;
+    height: 3rem;
     display: flex;
     width: 100%;
     align-items: center;
     color: #FFF;
-    background-color: rgba(0, 0, 0, 0.8);
+    background: $header-color;
     margin-bottom: 3%;
 }
 
 .app-logo{
     margin-left: 2rem;
-    height: 3rem;
-    width: 3rem;
+    height: 2.5rem;
+    width: 2.5rem;
 }
 
 .app-title{

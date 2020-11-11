@@ -1,5 +1,5 @@
 
-import '../Header/Header.css'
+import className from '../Header/Header.scss';
 
 function Header({ logo, title }) {
 

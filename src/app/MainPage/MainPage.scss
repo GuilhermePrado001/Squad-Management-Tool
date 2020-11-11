@@ -1,0 +1,19 @@
+@import '../../sass/main.scss';
+
+.radius-modify {
+    border-radius: 10px;
+}
+
+.teams-card {
+    flex: content;
+    max-height: 40rem;
+}
+
+.top-five-card {
+    max-height: 25rem; 
+    margin-bottom: 4.5%;
+}
+
+.most-picked {
+    max-height: 13rem;
+}

@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
-import MyTeams from '../MyTeams/MyTeams';
+import MainPage from '../MainPage/MainPage';
+import venturusIcon from '../../assets/img/venturus_logo_header.png'
 
 
 function Layout() {
@@ -9,14 +10,14 @@ function Layout() {
     return (
         <>
             <Header 
-                logo={'https://avatars1.githubusercontent.com/u/8186664?s=460&v=4'}
+                logo={venturusIcon}
                 title="Squad Management"
             />               
                 <BrowserRouter>
                     <Switch>
                         <Route
                             path="/"
-                            render={() => <MyTeams />}
+                            render={() => <MainPage />}
                             exact
                         />
                         <Route
