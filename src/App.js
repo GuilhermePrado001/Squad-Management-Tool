@@ -1,10 +1,13 @@
 import 'antd/dist/antd.css';
 import Layout from './app/Layout/Layout';
+import ManagementTeamProvider from './context/ManagementTeamContext';
 
 function App() {
   return (
     <div className="App">
-       <Layout />
+      <ManagementTeamProvider>
+        <Layout />
+      </ManagementTeamProvider>
     </div>
   );
 }
