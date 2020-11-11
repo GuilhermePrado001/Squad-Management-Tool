@@ -11,7 +11,7 @@ function Layout() {
         <>
             <Header 
                 logo={venturusIcon}
-                title="Squad Management"
+                title="Squad Management Tool"
             />               
                 <BrowserRouter>
                     <Switch>

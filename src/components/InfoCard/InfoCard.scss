@@ -1,0 +1,19 @@
+@import '../../sass/main.scss';
+
+.card-info{
+    display: flex;
+    background-color: white;
+    border-radius: $default-radius;
+    margin-bottom: 5px;
+    height: 2.2rem;
+    align-items: center;
+}
+
+.team-age-avg {
+    margin-right: 15px;
+}
+
+.team-name-avg{
+    margin-left: 15px;
+    flex: 1;
+}
