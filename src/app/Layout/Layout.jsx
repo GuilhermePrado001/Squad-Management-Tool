@@ -11,25 +11,26 @@ function Layout() {
 
     return (
         <>
-            <Header 
-                logo={venturusIcon}
-                title="Squad Management Tool"
-            />               
-                <BrowserRouter>
-                    <Switch>
-                        <Route
-                            path="/"
-                            render={() => <MainPage />}
-                            exact
-                        />
-                        <Route
-                            path="/create"
-                            render={() => <CreatePage title={<CardTitle title="Create Team"/>} />}
-                            exact
-                        />
-                    </Switch>
-                </BrowserRouter>
-            <Footer />
+            <BrowserRouter>
+                <Header 
+                    logo={venturusIcon}
+                    title="Squad Management Tool"
+                />               
+            
+                        <Switch>
+                            <Route
+                                path="/"
+                                render={() => <MainPage />}
+                                exact
+                            />
+                            <Route
+                                path="/create"
+                                render={() => <CreatePage title={<CardTitle title="Create Team"/>} />}
+                                exact
+                            />
+                        </Switch>
+                <Footer />
+            </BrowserRouter>
         </>
     );
 }

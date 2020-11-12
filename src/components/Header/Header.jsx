@@ -1,5 +1,6 @@
 
 import className from '../Header/Header.scss';
+import { Link } from 'react-router-dom';
 
 function Header({ logo, title }) {
 
@@ -10,12 +11,17 @@ function Header({ logo, title }) {
     return (
         <>
             <header className="site-page-header">
-
-                {hasLogo}
-
-                <div className="app-title">
-                    <span>{title}</span>
-                </div>
+      
+                <Link to="/">     
+                    {hasLogo}
+                </Link>
+                
+                    <div className="app-title">
+                        <Link to="/">   
+                            <span>{title}</span>
+                        </Link>
+                    </div>
+         
             </header>
         </>
     );
