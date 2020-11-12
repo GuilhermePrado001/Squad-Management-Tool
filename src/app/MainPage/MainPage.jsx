@@ -1,9 +1,8 @@
 import { DeleteFilled, EditFilled, PlusOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Button, Card, Col, Popconfirm, Popover, Row } from 'antd';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CardTitle from '../../components/CardTitle/CardTitle';
-import { ManagementTeamContext } from '../../context/ManagementTeamContext';
 import MyTeam from '../MyTeam/MyTeam';
 import TopFive from '../TopFive/TopFive';
 import './MainPage.scss';
@@ -50,8 +49,6 @@ function MainPage() {
             description: 'Team 4',
         },
     ];
-
-    const { lineUp, setLineUp } = useContext(ManagementTeamContext);
     
     const [rowData, setRowData] = useState(data);
 
@@ -90,10 +87,8 @@ function MainPage() {
     }
 
     return (
-        <>
-            
+        <>          
             <div className="site-page-myteams">
-                <button onClick={() => console.log(lineUp)}>TESTE</button>
                 <Row justify="center">
                     <Col lg={{ span: 11 }} xs={{ span: 16 }}>
                         <Card

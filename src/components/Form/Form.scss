@@ -1,0 +1,35 @@
+@import '../../sass/main.scss';
+
+.form-session-team {
+    margin-bottom: 25px;
+    color: rgb(174, 174, 174); 
+}
+
+.form-session-conf {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    color: rgb(174, 174, 174);  
+}
+
+.spin-loadin{
+    margin-left: 50%;
+    margin-top: 30%;
+}
+
+.squad {
+    max-height: 32rem;
+    overflow-y: auto;
+}
+
+.label-teams{
+    font-weight: $default-label-weigth;
+}
+
+.escalation-squad{
+    display: flex;
+    background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
+    border-radius: 3px;
+    height: 30rem;
+    margin: auto;
+}
+

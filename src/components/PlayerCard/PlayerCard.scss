@@ -1,0 +1,27 @@
+@import '../../sass/main.scss';
+
+.player-card{
+    background: linear-gradient(to bottom,rgb(248, 248, 248),rgb(232, 232, 232));
+    margin-bottom: 5px;
+    height: 4.9rem;
+    padding: 5px;
+    border: dashed 2px rgb(212, 209, 209);
+}
+
+.player-data{
+    color: rgb(207, 57, 108);
+    font-weight: $default-label-weigth;
+}
+
+.player-field{
+    display: flex;
+}
+
+span.player-card-name {
+    flex: 1;
+}
+
+.player-label{
+    font-weight: $default-label-weigth;
+    margin-right: 2px;
+}
