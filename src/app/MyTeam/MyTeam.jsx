@@ -5,7 +5,7 @@ function MyTeam({ data, columns }) {
 
     return (
         <>
-            <Table columns={columns} dataSource={data} pagination={false} />
+            <Table key={"table"} columns={columns} dataSource={data} pagination={false} />
         </>
     );
 }

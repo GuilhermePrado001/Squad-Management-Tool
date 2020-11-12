@@ -1,6 +1,8 @@
 import { Button, Col, Empty, Form, Input, Radio, Row, Select, Spin } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { ManagementTeamContext } from '../../context/ManagementTeamContext';
 import { GetLineUp } from '../../services/Repository/Football';
 import '../Form/Form.scss';
 import PlayerCard from '../PlayerCard/PlayerCard';
@@ -22,8 +24,11 @@ function FormComponent() {
 
     const [form] = Form.useForm();
 
+    let history = useHistory();
     const [playerList, setPlayerList] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const { teamList, setTeamList} = useContext(ManagementTeamContext);
 
     const searchHandler = async (e) => {
 
@@ -42,7 +47,10 @@ function FormComponent() {
     }
 
     const onFinish = values => {
-        console.log(values);
+        
+        setTeamList([...teamList, values])
+
+        history.push("/");
     };
 
     return (
@@ -59,7 +67,7 @@ function FormComponent() {
                 <Row justify="center">
                     <Col lg={{ span: 8 }} xs={{ span: 16 }}>
                         <Form.Item 
-                            name="team-name"
+                            name="teamName"
                             className="label-teams" 
                             label="Team Name" 
                             rules={[
@@ -69,12 +77,12 @@ function FormComponent() {
                                 },
                               ]}
                         >
-                            <Input placeholder="Insert team name" name="team-name" />
+                            <Input placeholder="Insert team name" name="teamName" />
                         </Form.Item>
 
                
-                        <Form.Item name="teste" label="Description" className="label-teams"  >
-                            <TextArea name="teste" rows={6} />
+                        <Form.Item name="description" label="Description" className="label-teams"  >
+                            <TextArea name="description" rows={6} />
                         </Form.Item>
                     </Col>
 
