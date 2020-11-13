@@ -4,6 +4,7 @@ import { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
 import { GetLineUp } from '../../services/Repository/Football';
+import { GetAliasName } from '../../utils/utils';
 import '../Form/Form.scss';
 import PlayerCard from '../PlayerCard/PlayerCard';
 
@@ -26,6 +27,7 @@ function FormComponent() {
 
     let history = useHistory();
     const [playerList, setPlayerList] = useState([]);
+    const [escalationList, setEscalationList] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const { teamList, setTeamList} = useContext(ManagementTeamContext);
@@ -48,6 +50,9 @@ function FormComponent() {
 
     const onFinish = values => {
         
+        if(!values.players)
+            values.players = escalationList
+
         setTeamList([...teamList, values])
 
         history.push("/");
@@ -59,13 +64,25 @@ function FormComponent() {
 
     const drop = (ev) => {
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("text");
-        console.log(data)
-        ev.target.appendChild(document.getElementById(data));
+
+        var data = JSON.parse(ev.dataTransfer.getData("text"));
+
+        if(!data)
+            return;
+        
+        setEscalationList([...escalationList, data])
+
+        let currentName = document.getElementById(data.currentId).innerText
+        document.getElementById(data.currentId).innerText = GetAliasName(currentName);
+
+        ev.target.appendChild(document.getElementById(data.currentId));
     }
 
-    const drag = (ev) => {
-        ev.dataTransfer.setData("text", ev.target.id);
+    const drag = (ev,obj,index) => {
+        
+        obj.currentId = `player-${index}`
+     
+        ev.dataTransfer.setData("text", JSON.stringify(obj));
     }
 
     return (
@@ -185,7 +202,7 @@ function FormComponent() {
                                     playerList[0].api.players.map((e, i) => {
                                     return (
                                         // <PlayerCard key={i} name={e.player_name} age={e.age} nacionality={e.nationality} />
-                                        <div id={`player-${i}`} draggable="true" onDragStart={(e) => drag(e)}>{e.player_name}</div>
+                                         <div id={`player-${i}`} draggable="true" onDragStart={(ev) => drag(ev,e,i)}>{e.player_name}</div>
                                     )
                                 })
                                 :

@@ -60,13 +60,12 @@ function MainPage() {
     }
 
     const handleDelete = (teamName) => {
-        console.log(teamName)
         const dataSource = [...teamList]
         setTeamList(dataSource.filter((item) => item.teamName !== teamName))
     }
 
     return (
-        <>          
+        <>        
             <div className="site-page-myteams">
                 <Row justify="center">
                     <Col lg={{ span: 11 }} xs={{ span: 16 }}>

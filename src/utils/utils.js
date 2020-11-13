@@ -16,3 +16,17 @@ export const GetAliasName = (player_name) =>{
     
     return firstLetter.concat(secondLetter)
 }
+
+export const AvgArrayCalc = (array) => {
+    console.log(array)
+    if(!array)
+        return;
+
+    var total = 0;
+
+    for(var i = 0; i < array.length; i++) {
+        total += array[i];
+    }
+
+    return total / array.length;
+}
