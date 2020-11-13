@@ -53,6 +53,21 @@ function FormComponent() {
         history.push("/");
     };
 
+    const allowDrop = (ev) => {
+        ev.preventDefault();
+    }
+
+    const drop = (ev) => {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        console.log(data)
+        ev.target.appendChild(document.getElementById(data));
+    }
+
+    const drag = (ev) => {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
     return (
         <>
             <Form
@@ -142,7 +157,12 @@ function FormComponent() {
                             
                         </Form.Item>
 
-                        <div className="escalation-squad">
+                        <div  className="escalation-squad">
+                            
+                            <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className="teste"></div>
+                            <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className="teste"></div>
+                            <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className="teste"></div>
+                            <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className="teste"></div>
 
                         </div>
 
@@ -164,7 +184,8 @@ function FormComponent() {
                                 playerList.length > 0 && playerList[0].api.results !== 0 ?
                                     playerList[0].api.players.map((e, i) => {
                                     return (
-                                        <PlayerCard key={i} name={e.player_name} age={e.age} nacionality={e.nationality} />
+                                        // <PlayerCard key={i} name={e.player_name} age={e.age} nacionality={e.nationality} />
+                                        <div id={`player-${i}`} draggable="true" onDragStart={(e) => drag(e)}>{e.player_name}</div>
                                     )
                                 })
                                 :
