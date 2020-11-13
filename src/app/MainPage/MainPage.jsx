@@ -28,7 +28,7 @@ function MainPage() {
         }
     ];
 
-    const { teamList, setTeamList } = useContext(ManagementTeamContext);
+    const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
     
     const descriptionRender = (text, record) => {
         return (
@@ -61,7 +61,10 @@ function MainPage() {
 
     const handleDelete = (teamName) => {
         const dataSource = [...teamList]
+        const avgDataSource = [...ageAvg]
+
         setTeamList(dataSource.filter((item) => item.teamName !== teamName))
+        setAgeAvg(avgDataSource.filter((item) => item.name !== teamName))
     }
 
     return (
