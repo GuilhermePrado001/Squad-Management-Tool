@@ -11,6 +11,7 @@ function TopFive() {
 
     return (
         <>
+        <button onClick={() => { console.log(ageAvg) }}>TESTE</button>
           <Row justify="center">
              <Col lg={{ span: 11, offset: 1 }} xs={{ span: 16 }}>  
                 <span className="avarage-title">Highest avg age</span>

@@ -1,6 +1,6 @@
 import { Button, Col, Empty, Form, Input, Radio, Row, Select, Spin } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
 import { GetLineUp } from '../../services/Repository/Football';
@@ -21,7 +21,7 @@ const formations = [
     "5 - 4 - 1",
 ]
 
-const ageList = [];
+var ageList = [];
 
 function FormComponent() {
 
@@ -33,6 +33,10 @@ function FormComponent() {
     const [loading, setLoading] = useState(false);
 
     const { teamList, setTeamList, ageAvg, setAgeAvg} = useContext(ManagementTeamContext);
+
+    useEffect(() => {
+        ageList = [];
+    }, [])
 
     const searchHandler = async (e) => {
 
