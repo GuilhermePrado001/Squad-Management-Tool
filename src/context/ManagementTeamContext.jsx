@@ -7,13 +7,17 @@ export const ManagementTeamContext = createContext();
 export default function ManagementTeamProvider({ children }){
 
     const [teamList, setTeamList] = useState([]);
+    const [ageAvg, setAgeAvg ] = useState([])
 
     return (
         <ManagementTeamContext.Provider
             value={
                 {
                     teamList,
-                    setTeamList
+                    setTeamList,
+
+                    ageAvg,
+                    setAgeAvg
                 }
             }
         >

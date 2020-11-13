@@ -1,31 +1,13 @@
 import '../TopFive/TopFive.scss'
 import { Card, Col, Row } from 'antd';
 import InfoCard from '../../components/InfoCard/InfoCard';
+import { useContext } from 'react';
+import { ManagementTeamContext } from '../../context/ManagementTeamContext';
+import { AvgArrayCalc } from '../../utils/utils';
 
 function TopFive() {
 
-    const teams = [
-        {
-            name: "Milan",
-            avg:"26"
-        },
-        {
-            name: "Barça",
-            avg:"26"
-        },
-        {
-            name: "Real",
-            avg:"26"
-        },
-        {
-            name: "Inter",
-            avg:"26"
-        },
-        {
-            name: "Guarani",
-            avg:"26"
-        }
-    ]
+    const { ageAvg } = useContext(ManagementTeamContext)
 
     return (
         <>
@@ -35,8 +17,8 @@ function TopFive() {
                 <Card
                     className="radius-modify avarage-card"
                     bordered={true}>
-                    {teams.map((e,i) => (
-                        <InfoCard key={i} name={e.name} avg={e.avg} />
+                    {ageAvg.map((e,i) => (
+                        <InfoCard key={i} name={e.name} avg={AvgArrayCalc(e.ageList)} />
                     ))}
                 </Card>
              </Col>   
@@ -45,8 +27,8 @@ function TopFive() {
                 <Card
                     className="radius-modify avarage-card"
                     bordered={true}>
-                    {teams.map((e,i) => (
-                        <InfoCard key={i} name={e.name} avg={e.avg} />
+                    {ageAvg.map((e,i) => (
+                        <InfoCard key={i} name={e.name} avg={AvgArrayCalc(e.ageList)} />
                     ))}
                 </Card>
              </Col>     

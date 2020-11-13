@@ -21,6 +21,8 @@ const formations = [
     "5 - 4 - 1",
 ]
 
+const ageList = [];
+
 function FormComponent() {
 
     const [form] = Form.useForm();
@@ -30,7 +32,7 @@ function FormComponent() {
     const [escalationList, setEscalationList] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const { teamList, setTeamList} = useContext(ManagementTeamContext);
+    const { teamList, setTeamList, ageAvg, setAgeAvg} = useContext(ManagementTeamContext);
 
     const searchHandler = async (e) => {
 
@@ -49,10 +51,11 @@ function FormComponent() {
     }
 
     const onFinish = values => {
-        
+
         if(!values.players)
             values.players = escalationList
 
+        setAgeAvg([...ageAvg,{ name: values.teamName, ageList: ageList }])
         setTeamList([...teamList, values])
 
         history.push("/");
@@ -70,8 +73,9 @@ function FormComponent() {
         if(!data)
             return;
         
+            ageList.push(data.age);
+            console.log(ageList)
         setEscalationList([...escalationList, data])
-
         let currentName = document.getElementById(data.currentId).innerText
         document.getElementById(data.currentId).innerText = GetAliasName(currentName);
 
@@ -79,7 +83,7 @@ function FormComponent() {
     }
 
     const drag = (ev,obj,index) => {
-        
+
         obj.currentId = `player-${index}`
      
         ev.dataTransfer.setData("text", JSON.stringify(obj));

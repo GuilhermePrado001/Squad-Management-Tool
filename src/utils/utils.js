@@ -18,7 +18,7 @@ export const GetAliasName = (player_name) =>{
 }
 
 export const AvgArrayCalc = (array) => {
-    console.log(array)
+
     if(!array)
         return;
 
