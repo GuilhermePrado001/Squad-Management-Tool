@@ -6,6 +6,7 @@ import { ManagementTeamContext } from '../../context/ManagementTeamContext';
 import { GetLineUp } from '../../services/Repository/Football';
 import '../Form/Form.scss';
 import PlayerCard from '../PlayerCard/PlayerCard';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const formations = [
     "3 - 2 - 2 - 3",
@@ -28,15 +29,15 @@ function FormComponent() {
     const [playerList, setPlayerList] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const { teamList, setTeamList} = useContext(ManagementTeamContext);
+    const { teamList, setTeamList } = useContext(ManagementTeamContext);
 
     const searchHandler = async (e) => {
 
         e.preventDefault();
-        
+
         setPlayerList([]);
 
-        if(e.target.value === "")
+        if (e.target.value === "")
             return;
 
         setLoading(true)
@@ -47,11 +48,16 @@ function FormComponent() {
     }
 
     const onFinish = values => {
-        
+        console.log(values)
         setTeamList([...teamList, values])
 
         history.push("/");
     };
+
+
+    const handleOnDragEnd  = (result) =>{
+        console.log(result)
+    }
 
     return (
         <>
@@ -66,37 +72,37 @@ function FormComponent() {
 
                 <Row justify="center">
                     <Col lg={{ span: 8 }} xs={{ span: 16 }}>
-                        <Form.Item 
+                        <Form.Item
                             name="teamName"
-                            className="label-teams" 
-                            label="Team Name" 
+                            className="label-teams"
+                            label="Team Name"
                             rules={[
                                 {
-                                  required: true,
-                                  message: 'Please input your team name!',
+                                    required: true,
+                                    message: 'Please input your team name!',
                                 },
-                              ]}
+                            ]}
                         >
                             <Input placeholder="Insert team name" name="teamName" />
                         </Form.Item>
 
-               
+
                         <Form.Item name="description" label="Description" className="label-teams"  >
                             <TextArea name="description" rows={6} />
                         </Form.Item>
                     </Col>
 
                     <Col lg={{ span: 8, offset: 1 }} xs={{ span: 16 }}>
-                        <Form.Item 
-                            className="label-teams" 
+                        <Form.Item
+                            className="label-teams"
                             label="Team Website"
                             name="website"
                             rules={[
                                 {
-                                  required: true,
-                                  message: 'Please input your Website!',
+                                    required: true,
+                                    message: 'Please input your Website!',
                                 },
-                              ]}
+                            ]}
                         >
                             <Input placeholder="http://myteam.com" name="website" />
                         </Form.Item>
@@ -107,10 +113,10 @@ function FormComponent() {
                             name="team-type"
                             rules={[
                                 {
-                                  required: true,
-                                  message: 'Please choose your team type!',
+                                    required: true,
+                                    message: 'Please choose your team type!',
                                 },
-                              ]}
+                            ]}
                         >
                             <Radio.Group name="team-type">
                                 <Radio value="Real">Real</Radio>
@@ -125,54 +131,71 @@ function FormComponent() {
                 </Row>
 
                 <Row justify="center">
-                    <Col lg={{ span: 8 }} xs={{ span: 16 }}>
+                    <DragDropContext onDragEnd={handleOnDragEnd}>
+                        <Droppable droppableId="players">
+                            {(provided) => (
+                                <>
+                                    <Col lg={{ span: 8 }} xs={{ span: 16 }}>
 
-                        <Form.Item 
-                          className="label-teams"
-                            label="Formation"
-                            name="formation"
-                            rules={[{ required: true, message: 'Please select your team roster!' }]}
-                        >
-                                                  
-                            <Select>
-                                {formations.map((value, i) => {
-                                    return <Select.Option key={i} value={value}>{value}</Select.Option>
-                                })}                                   
-                            </Select>
-                            
-                        </Form.Item>
+                                        <Form.Item
+                                            className="label-teams"
+                                            label="Formation"
+                                            name="formation"
+                                            rules={[{ required: true, message: 'Please select your team roster!' }]}
+                                        >
 
-                        <div className="escalation-squad">
+                                            <Select>
+                                                {formations.map((value, i) => {
+                                                    return <Select.Option key={i} value={value}>{value}</Select.Option>
+                                                })}
+                                            </Select>
 
-                        </div>
+                                        </Form.Item>
 
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>           
-                        </Form.Item>
-                    </Col>
+                                        //PRECISO COLCOAR JOGADORES AQUI            
+                                        <ul className="escalation-squad" {...provided.droppableProps} ref={provided.innerRef}>
+                                          {provided.placeholder}      
+                                        </ul>
+                                        //PRECISO E AQUI
+                                        <ul className="escalation-squad" {...provided.droppableProps} ref={provided.innerRef}>
+                                          {provided.placeholder}      
+                                        </ul>
 
-                    <Col lg={{ span: 8, offset: 1 }} xs={{ span: 16 }}>
+                                        <Form.Item>
+                                            <Button type="primary" htmlType="submit">
+                                                Submit
+                                            </Button>
+                                        </Form.Item>
+                                    </Col>
 
-                        <Form.Item className="label-teams" label="Search Players">
-                            <Input onPressEnter={searchHandler} placeholder="input placeholder" />
-                        </Form.Item>
+                                    <Col lg={{ span: 8, offset: 1 }} xs={{ span: 16 }}>
 
-                        <div className="squad">
-                            {
-                                playerList.length > 0 && playerList[0].api.results !== 0 ?
-                                    playerList[0].api.players.map((e, i) => {
-                                    return (
-                                        <PlayerCard key={i} name={e.player_name} age={e.age} nacionality={e.nationality} />
-                                    )
-                                })
-                                :
-                                !loading ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <Spin className="spin-loadin" spinning={loading} delay={500}></Spin>
-                            }
-                        </div>
+                                        <Form.Item className="label-teams" label="Search Players">
+                                            <Input onPressEnter={searchHandler} placeholder="input placeholder" />
+                                        </Form.Item>
 
-                    </Col>
+                                        <div className="squad">
+                                            {
+                                                playerList.length > 0 && playerList[0].api.results !== 0 ?
+                                                    playerList[0].api.players.map((e, i) => {
+                                                        return (
+                                                            <Draggable key={e.player_name} draggableId={e.player_name} index={i}>
+                                                                {(provided) => (
+                                                                    <PlayerCard innerRef={provided.innerRef} provided={provided} name={e.player_name} age={e.age} nacionality={e.nationality} />
+                                                                )}
+                                                            </Draggable>
+                                                        )
+                                                    })
+                                                    :
+                                                    !loading ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <Spin className="spin-loadin" spinning={loading} delay={500}></Spin>
+                                            }
+                                        </div>
+
+                                    </Col>
+                                </>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </Row>
             </Form>
         </>
