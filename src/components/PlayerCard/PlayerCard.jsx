@@ -1,10 +1,22 @@
 import '../PlayerCard/PlayerCard.scss'
 
-function PlayerCard({ name, age, nacionality }) {
+function PlayerCard({ draggable, name, age, nacionality, playerData, index, id }) {
+
+    const drag = (ev,obj) => {
+
+        obj.currentId = `player-${index}`
+     
+        ev.dataTransfer.setData("text", JSON.stringify(obj));
+
+        // setTimeout(() =>{
+        //     ev.target.style.display = "none"
+        // },0)
+
+    }
 
     return (
         <>
-            <div className="player-card">
+            <div id={id} draggable={draggable} onDragStart={(ev) => {drag(ev, playerData)}} className="player-card">
 
                 <div className="player-field">  
                     <span className="player-label">Name: </span>

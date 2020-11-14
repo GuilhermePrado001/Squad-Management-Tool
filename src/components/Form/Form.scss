@@ -27,22 +27,61 @@
 
 .escalation-squad{
     display: flex;
+    flex-direction: column;
     background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
     border-radius: 3px;
-    height: 30rem;
-    margin: auto;
+    height: 80vw;
+    max-height: 30rem;
+    min-width: 11rem;
+    min-height: 22rem;
+
+    .line{
+        background-color: rgb(204, 154, 190);
+        border-radius: 120px;
+        margin: 10px;
+        margin-bottom: 45px;
+        height: 7vw;
+        width: 7vw;
+        max-width: 50px;
+        max-height: 3.2rem;
+        border: dashed 1px;
+        display: flex;
+        
+        span{
+            margin: auto;
+        }
+    }
+
+    .lineUp {
+        display: flex;
+        align-self: center;
+        margin: 10px;
+    }
+
 }
 
-.teste{
- 
-        // display: flex;
-        background-color: white;
-        // border-radius: $default-radius;
-        // margin-bottom: 5px;
-        margin: auto;
-        height: 2.2rem;
-        width: 80px;
-        // align-items: center;
+.submit-button{
+    margin-top: 20px;
+    width: 100%;
+    background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
+    border-radius: 3px;
+    border: none;
+
+    span {
+        text-align: center;
+        font-weight: 500;
+    }
 
 }
+
+.submit-button:hover{
+    background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(185, 92, 179));
+}
+
+.submit-button:focus{
+    background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
+}
+
+
+
 

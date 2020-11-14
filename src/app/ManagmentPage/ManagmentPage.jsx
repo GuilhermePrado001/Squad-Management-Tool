@@ -1,9 +1,9 @@
 import { Card } from 'antd';
 import React from 'react';
-import '../CreatePage/CreatePage.scss';
+import '../ManagmentPage/ManagmentPage.scss';
 import FormComponent from '../../components/Form/Form'
 
-function CreatePage({ title }) {
+function ManagmentPage({ title }) {
     
     return (
         <>
@@ -16,4 +16,4 @@ function CreatePage({ title }) {
     );
 }
 
-export default CreatePage;
+export default ManagmentPage;

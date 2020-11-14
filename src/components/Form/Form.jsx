@@ -1,3 +1,4 @@
+import { PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Empty, Form, Input, Radio, Row, Select, Spin } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { useContext, useEffect, useState } from 'react';
@@ -23,7 +24,7 @@ const formations = [
 
 var ageList = [];
 
-function FormComponent() {
+const FormComponent = () => {
 
     const [form] = Form.useForm();
 
@@ -31,8 +32,9 @@ function FormComponent() {
     const [playerList, setPlayerList] = useState([]);
     const [escalationList, setEscalationList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [formation, setFormation] = useState([]);
 
-    const { teamList, setTeamList, ageAvg, setAgeAvg} = useContext(ManagementTeamContext);
+    const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
 
     useEffect(() => {
         ageList = [];
@@ -41,10 +43,10 @@ function FormComponent() {
     const searchHandler = async (e) => {
 
         e.preventDefault();
-        
+
         setPlayerList([]);
 
-        if(e.target.value === "")
+        if (e.target.value === "")
             return;
 
         setLoading(true)
@@ -54,16 +56,49 @@ function FormComponent() {
         setPlayerList([data]);
     }
 
+    const editFlow = (url, values) => {
+        var index = url.pathname.split('/')[2];
+            
+        var arrayCopy = [...teamList];
+
+        //Still with the same index
+        values.index = index;
+
+        var newAgeList = ageAvg.filter((item) => item.name !== arrayCopy[index].teamName)
+        
+        arrayCopy[index] = values;
+        
+        setAgeAvg([...newAgeList, { name: values.teamName, ageList: ageList }])
+        setTeamList(arrayCopy);
+    }
+
     const onFinish = values => {
 
-        if(!values.players)
+        if (!values.players)
             values.players = escalationList
 
-        setAgeAvg([...ageAvg,{ name: values.teamName, ageList: ageList }])
+        var url = new URL(window.location.href);
+
+         if(url.pathname.includes('/edit')){
+
+            editFlow(url, values)
+
+            history.push("/");
+            return;
+         }
+
+        //This index is independent of the ordering, it's necessary for edit 
+        values.index = teamList.length
+
+        setAgeAvg([...ageAvg, { name: values.teamName, ageList: ageList }])
         setTeamList([...teamList, values])
 
         history.push("/");
     };
+
+    const onFinishFailed = values => {
+        form.scrollToField(values.errorFields[0].name);
+    }
 
     const allowDrop = (ev) => {
         ev.preventDefault();
@@ -74,23 +109,43 @@ function FormComponent() {
 
         var data = JSON.parse(ev.dataTransfer.getData("text"));
 
-        if(!data)
+        if (!data)
             return;
-        
-            ageList.push(data.age);
-            console.log(ageList)
-        setEscalationList([...escalationList, data])
-        let currentName = document.getElementById(data.currentId).innerText
-        document.getElementById(data.currentId).innerText = GetAliasName(currentName);
 
-        ev.target.appendChild(document.getElementById(data.currentId));
+        ageList.push(data.age);
+        setEscalationList([...escalationList, data])
+
+        document.getElementById(data.currentId).style.display = "none";
+
+        ev.target.firstChild.innerText = GetAliasName(data.player_name);
     }
 
-    const drag = (ev,obj,index) => {
+    const formationHandler = (e) => {
 
-        obj.currentId = `player-${index}`
-     
-        ev.dataTransfer.setData("text", JSON.stringify(obj));
+        // setEscalationList([]);
+
+        var formationInfo = e.trim().split('-')
+        var lineUp = [];
+
+        formationInfo.map((e, i) => {
+            lineUp.push(makeFormation(e, i));
+        })
+
+        setFormation(lineUp);
+    }
+
+    const makeFormation = (playerByPosition, i) => {
+        let lineUp = [];
+
+        for (let index = 0; index < playerByPosition; index++) {
+            lineUp.push(
+                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line-${index}`}>
+                    <span></span>
+                </div>
+            )
+        }
+
+        return { key: i, value: lineUp };
     }
 
     return (
@@ -99,6 +154,7 @@ function FormComponent() {
                 form={form}
                 layout="vertical"
                 onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
             >
                 <Row justify="center">
                     <span className="form-session-team label-teams">TEAM INFORMATION</span>
@@ -106,37 +162,37 @@ function FormComponent() {
 
                 <Row justify="center">
                     <Col lg={{ span: 8 }} xs={{ span: 16 }}>
-                        <Form.Item 
+                        <Form.Item
                             name="teamName"
-                            className="label-teams" 
-                            label="Team Name" 
+                            className="label-teams"
+                            label="Team Name"
                             rules={[
                                 {
-                                  required: true,
-                                  message: 'Please input your team name!',
+                                    required: true,
+                                    message: 'Please input your team name!',
                                 },
-                              ]}
+                            ]}
                         >
                             <Input placeholder="Insert team name" name="teamName" />
                         </Form.Item>
 
-               
+
                         <Form.Item name="description" label="Description" className="label-teams"  >
                             <TextArea name="description" rows={6} />
                         </Form.Item>
                     </Col>
 
                     <Col lg={{ span: 8, offset: 1 }} xs={{ span: 16 }}>
-                        <Form.Item 
-                            className="label-teams" 
+                        <Form.Item
+                            className="label-teams"
                             label="Team Website"
                             name="website"
                             rules={[
                                 {
-                                  required: true,
-                                  message: 'Please input your Website!',
+                                    required: true,
+                                    message: 'Please input your Website!',
                                 },
-                              ]}
+                            ]}
                         >
                             <Input placeholder="http://myteam.com" name="website" />
                         </Form.Item>
@@ -147,10 +203,10 @@ function FormComponent() {
                             name="team-type"
                             rules={[
                                 {
-                                  required: true,
-                                  message: 'Please choose your team type!',
+                                    required: true,
+                                    message: 'Please choose your team type!',
                                 },
-                              ]}
+                            ]}
                         >
                             <Radio.Group name="team-type">
                                 <Radio value="Real">Real</Radio>
@@ -167,34 +223,80 @@ function FormComponent() {
                 <Row justify="center">
                     <Col lg={{ span: 8 }} xs={{ span: 16 }}>
 
-                        <Form.Item 
-                          className="label-teams"
+                        <Form.Item
+                            className="label-teams"
                             label="Formation"
                             name="formation"
                             rules={[{ required: true, message: 'Please select your team roster!' }]}
                         >
-                                                  
-                            <Select>
+
+                            <Select onChange={(e) => { formationHandler(e) }}>
                                 {formations.map((value, i) => {
                                     return <Select.Option key={i} value={value}>{value}</Select.Option>
-                                })}                                   
+                                })}
                             </Select>
-                            
+
                         </Form.Item>
 
-                        <div  className="escalation-squad">
-                            
-                            <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className="teste"></div>
-                            <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className="teste"></div>
-                            <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className="teste"></div>
-                            <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className="teste"></div>
+                        <div className="escalation-squad">
+                            <div className="lineUp">
+                                {
+                                    formation.length > 0 ?
+                                        formation[0].value.map((e, i) => {
+                                            return (
+                                                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line line-one`}>
+                                                    <span><PlusOutlined /></span>
+                                                </div>
+                                            )
+                                        }) : null
+                                }
+                            </div>
+
+                            <div className="lineUp">
+                                {
+                                    formation.length > 0 ?
+                                        formation[1].value.map((e, i) => {
+                                            return (
+                                                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line line-two`}>
+                                                    <span><PlusOutlined /></span>
+                                                </div>
+                                            )
+                                        }) : null
+                                }
+                            </div>
+
+                            <div className="lineUp">
+                                {
+                                    formation.length > 0 ?
+                                        formation[2].value.map((e, i) => {
+                                            return (
+                                                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line line-three`}>
+                                                    <span><PlusOutlined /></span>
+                                                </div>
+                                            )
+                                        }) : null
+                                }
+                            </div>
+
+                            <div className="lineUp">
+                                {
+                                    formation.length == 4 ?
+                                        formation[3].value.map((e, i) => {
+                                            return (
+                                                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line line-four`}>
+                                                    <span><PlusOutlined /></span>
+                                                </div>
+                                            )
+                                        }) : null
+                                }
+                            </div>
 
                         </div>
 
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>           
+                            <Button className="submit-button" type="primary" htmlType="submit">
+                                Save
+                            </Button>
                         </Form.Item>
                     </Col>
 
@@ -208,13 +310,21 @@ function FormComponent() {
                             {
                                 playerList.length > 0 && playerList[0].api.results !== 0 ?
                                     playerList[0].api.players.map((e, i) => {
-                                    return (
-                                        // <PlayerCard key={i} name={e.player_name} age={e.age} nacionality={e.nationality} />
-                                         <div id={`player-${i}`} draggable="true" onDragStart={(ev) => drag(ev,e,i)}>{e.player_name}</div>
-                                    )
-                                })
-                                :
-                                !loading ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <Spin className="spin-loadin" spinning={loading} delay={500}></Spin>
+                                        return (
+                                            <PlayerCard
+                                                key={i}
+                                                name={e.player_name}
+                                                age={e.age}
+                                                nacionality={e.nationality}
+                                                id={`player-${i}`}
+                                                draggable="true"
+                                                playerData={e}
+                                                index={i}
+                                            />
+                                        )
+                                    })
+                                    :
+                                    !loading ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <Spin className="spin-loadin" spinning={loading} delay={500}></Spin>
                             }
                         </div>
 

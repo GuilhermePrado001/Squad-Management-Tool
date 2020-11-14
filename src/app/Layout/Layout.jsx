@@ -3,7 +3,7 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import MainPage from '../MainPage/MainPage';
 import venturusIcon from '../../assets/img/venturus_logo_header.png'
-import CreatePage from '../CreatePage/CreatePage';
+import ManagmentPage from '../ManagmentPage/ManagmentPage';
 import CardTitle from '../../components/CardTitle/CardTitle';
 
 
@@ -25,7 +25,12 @@ function Layout() {
                             />
                             <Route
                                 path="/create"
-                                render={() => <CreatePage title={<CardTitle title="Create Team"/>} />}
+                                render={() => <ManagmentPage title={<CardTitle title="Create Team"/>} />}
+                                exact
+                            />
+                            <Route
+                                path="/edit/:index"
+                                render={() => <ManagmentPage title={<CardTitle title="Edit your Team"/>} />}
                                 exact
                             />
                         </Switch>

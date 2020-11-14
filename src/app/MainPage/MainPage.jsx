@@ -21,16 +21,15 @@ function MainPage() {
         {
             title: 'Description',
             dataIndex: 'description',
-            defaultSortOrder: 'descend',
             sorter: (a, b) => a.description.length - b.description.length,
             sortDirections: ['descend', 'ascend'],
-            render: (text, record) => descriptionRender(text, record)
+            render: (text, record, index) => descriptionRender(text, record, index)
         }
     ];
 
     const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
     
-    const descriptionRender = (text, record) => {
+    const descriptionRender = (text, record, index) => {
         return (
             <div className="column-description">
                 <span>{text}</span>
@@ -50,7 +49,9 @@ function MainPage() {
 
                     <Link className="reset-link" to={"/edit"}>
                         <Popover title="Edit" content="Click to edit a team">
-                            <EditFilled className="icon-action" />
+                            <Link to={`/edit/${record.index}`}>
+                                <EditFilled className="icon-action" />
+                            </Link>
                         </Popover>
                     </Link>
 

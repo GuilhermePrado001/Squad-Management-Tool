@@ -3,7 +3,9 @@
 .create-card {
     margin: auto;
     width: 84vw;
-    height: 150vh; //retirar
+    height: 85vw; //retirar
+    min-height: 85rem;
+    max-height: 85rem;
 }
 
 .formation-items {
