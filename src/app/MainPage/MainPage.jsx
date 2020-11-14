@@ -4,6 +4,7 @@ import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CardTitle from '../../components/CardTitle/CardTitle';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
+import { GetAliasName, LessPickedPlayer, MostPickedPlayer } from '../../utils/utils';
 import MyTeam from '../MyTeam/MyTeam';
 import TopFive from '../TopFive/TopFive';
 import './MainPage.scss';
@@ -14,20 +15,18 @@ function MainPage() {
         {
             title: 'Name',
             dataIndex: 'teamName',
-            sorter: (a, b) => a.teamName.length - b.teamName.length,
-            sortDirections: ['descend', 'ascend'],
+            sorter: (a, b) => a.teamName.localeCompare(b.first_name),
             width: 170
         },
         {
             title: 'Description',
             dataIndex: 'description',
-            sorter: (a, b) => a.description.length - b.description.length,
-            sortDirections: ['descend', 'ascend'],
+            sorter: (a, b) => a.description.localeCompare(b.description),
             render: (text, record, index) => descriptionRender(text, record, index)
         }
     ];
 
-    const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
+    const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
     
     const descriptionRender = (text, record, index) => {
         return (
@@ -73,6 +72,7 @@ function MainPage() {
             <div className="site-page-myteams">
                 <Row justify="center">
                     <Col lg={{ span: 11 }} xs={{ span: 16 }}>
+
                         <Card
                             title={<CardTitle title={"My Team"} />}
                             className="radius-modify teams-card"
@@ -86,20 +86,44 @@ function MainPage() {
                             }>
                             <MyTeam data={teamList} columns={columns} />
                         </Card>
+
                     </Col>
+
                     <Col lg={{ span: 11, offset: 1 }} xs={{ span: 16 }}>
+
                         <Card
                             title={<CardTitle title={"Top 5"} />}
                             className="radius-modify top-five-card"
                             bordered={true}>
-                            <TopFive />
+                                <TopFive />
                         </Card>
 
                         <Card
                             className="radius-modify most-picked"
                             bordered={true}>
-                            Card content
+
+                            <div className="teste">
+                               
+                                        {MostPickedPlayer(allPlayer) ?
+                                            <Popover content={`Most picked player is ${MostPickedPlayer(allPlayer)}`}>
+                                                <div className="picked mostPicked">               
+                                                    <span>{GetAliasName(MostPickedPlayer(allPlayer)) }</span>                                         
+                                                </div>
+                                            </Popover>
+                                        : null}
+                                        
+                                        {LessPickedPlayer(allPlayer) ?
+                                            <Popover content={`Less picked player is ${LessPickedPlayer(allPlayer)}`}>
+                                                <div className="picked lessPicked">
+                                                    <span>{GetAliasName(LessPickedPlayer(allPlayer))}</span>
+                                                </div> 
+                                            </Popover>
+                                        : null}
+                                                                     
+                            </div>
+                                                 
                         </Card>
+
                     </Col>
                 </Row>
             </div>

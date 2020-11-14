@@ -34,7 +34,7 @@ const FormComponent = () => {
     const [loading, setLoading] = useState(false);
     const [formation, setFormation] = useState([]);
 
-    const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
+    const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
 
     useEffect(() => {
         ageList = [];
@@ -74,8 +74,9 @@ const FormComponent = () => {
 
     const onFinish = values => {
 
-        if (!values.players)
+        if (!values.players){
             values.players = escalationList
+        }
 
         var url = new URL(window.location.href);
 
@@ -114,6 +115,7 @@ const FormComponent = () => {
 
         ageList.push(data.age);
         setEscalationList([...escalationList, data])
+        setAllPlayer([...allPlayer,data.player_name])
 
         document.getElementById(data.currentId).style.display = "none";
 
@@ -126,7 +128,7 @@ const FormComponent = () => {
 
         var formationInfo = e.trim().split('-')
         var lineUp = [];
-
+        
         formationInfo.map((e, i) => {
             lineUp.push(makeFormation(e, i));
         })
@@ -190,8 +192,14 @@ const FormComponent = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your Website!',
+                                    message: 'Please input your Website!',                            
                                 },
+                                {      
+                                    required: true,
+                                    type: "regexp",
+                                    pattern: new RegExp("@^(http\:\/\/|https\:\/\/)?([a-z0-9][a-z0-9\-]*\.)+[a-z0-9][a-z0-9\-]*$@i"),
+                                    message: "Wrong format!"
+                                }
                             ]}
                         >
                             <Input placeholder="http://myteam.com" name="website" />

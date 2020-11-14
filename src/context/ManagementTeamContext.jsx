@@ -8,6 +8,7 @@ export default function ManagementTeamProvider({ children }){
 
     const [teamList, setTeamList] = useState([]);
     const [ageAvg, setAgeAvg ] = useState([])
+    const [allPlayer , setAllPlayer] = useState([])
 
     return (
         <ManagementTeamContext.Provider
@@ -17,7 +18,10 @@ export default function ManagementTeamProvider({ children }){
                     setTeamList,
 
                     ageAvg,
-                    setAgeAvg
+                    setAgeAvg,
+
+                    allPlayer,
+                    setAllPlayer
                 }
             }
         >
