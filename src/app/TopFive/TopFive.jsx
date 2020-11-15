@@ -18,7 +18,7 @@ function TopFive() {
                         <Card
                             className="radius-modify avarage-card"
                             bordered={true}>
-                            {ageAvg.map((e, i) => (
+                            {ageAvg.slice(0,5).map((e, i) => (
                                 <InfoCard key={i} name={e.name} avg={AvgArrayCalc(e.ageList)} />
                             ))}
                         </Card>) :
@@ -34,7 +34,7 @@ function TopFive() {
                         <Card
                             className="radius-modify avarage-card"
                             bordered={true}>
-                            {ageAvg.map((e, i) => (
+                            {ageAvg.slice(0,5).map((e, i) => (
                                 <InfoCard key={i} name={e.name} avg={AvgArrayCalc(e.ageList)} />
                             ))}
                         </Card>) :
