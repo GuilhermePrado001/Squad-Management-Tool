@@ -5,7 +5,7 @@ import MainPage from '../MainPage/MainPage';
 import venturusIcon from '../../assets/img/venturus_logo_header.png'
 import ManagmentPage from '../ManagmentPage/ManagmentPage';
 import CardTitle from '../../components/CardTitle/CardTitle';
-
+import '../Layout/Layout.scss'
 
 function Layout() {
 
@@ -15,7 +15,8 @@ function Layout() {
                 <Header 
                     logo={venturusIcon}
                     title="Squad Management Tool"
-                />               
+                />
+                <div className="content">              
             
                         <Switch>
                             <Route
@@ -34,6 +35,7 @@ function Layout() {
                                 exact
                             />
                         </Switch>
+                        </div> 
                 <Footer />
             </BrowserRouter>
         </>

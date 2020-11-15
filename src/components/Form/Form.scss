@@ -82,6 +82,15 @@
     background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
 }
 
+@media only screen and (max-width: 990px) {
+
+    .squad {
+        max-height: 17rem;
+        overflow-y: auto;
+    }
+  
+}
+
 
 
 

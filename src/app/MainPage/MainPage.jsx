@@ -34,24 +34,18 @@ function MainPage() {
                 <span>{text}</span>
                 <div className="actions">
 
-                    <Popconfirm title="Sure to delete?" onConfirm={() =>{ handleDelete(record.teamName);}}>
-                        <a className="reset-link">
-                            <Popover title="Delete" content="Click to remove a item">
-                                <DeleteFilled className="icon-action" />
-                            </Popover>
-                        </a>
-                    </Popconfirm>
+                    <a className="reset-link">
+                        <Popover title="Delete" content="Click to remove a item">
+                            <DeleteFilled className="icon-action" />
+                        </Popover>
+                    </a>
 
-                    <Popover title="Share" content="Share a team">
-                        <ShareAltOutlined className="icon-action" />
-                    </Popover>
+                    <ShareAltOutlined className="icon-action" />
 
                     <Link className="reset-link" to={"/edit"}>
-                        <Popover title="Edit" content="Click to edit a team">
                             <Link to={`/edit/${record.index}`}>
                                 <EditFilled className="icon-action" />
                             </Link>
-                        </Popover>
                     </Link>
 
                 </div>
@@ -102,22 +96,22 @@ function MainPage() {
                             className="radius-modify most-picked"
                             bordered={true}>
 
-                            <div className="teste">
+                            <div className="most-picked-container">
                                
                                         {MostPickedPlayer(allPlayer) ?
-                                            <Popover content={`Most picked player is ${MostPickedPlayer(allPlayer)}`}>
-                                                <div className="picked mostPicked">               
-                                                    <span>{GetAliasName(MostPickedPlayer(allPlayer)) }</span>                                         
-                                                </div>
-                                            </Popover>
+
+                                            <div className="picked mostPicked">               
+                                                <span>{GetAliasName(MostPickedPlayer(allPlayer)) }</span>                                         
+                                            </div>
+                                      
                                         : null}
                                         
                                         {LessPickedPlayer(allPlayer) ?
-                                            <Popover content={`Less picked player is ${LessPickedPlayer(allPlayer)}`}>
-                                                <div className="picked lessPicked">
-                                                    <span>{GetAliasName(LessPickedPlayer(allPlayer))}</span>
-                                                </div> 
-                                            </Popover>
+                                            
+                                            <div className="picked lessPicked">
+                                                <span>{GetAliasName(LessPickedPlayer(allPlayer))}</span>
+                                            </div> 
+                                        
                                         : null}
                                                                      
                             </div>
