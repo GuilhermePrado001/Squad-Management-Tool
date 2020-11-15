@@ -47,6 +47,8 @@ const FormComponent = () => {
 
     const [currentTeam, setCurrentTeam] = useState("my team");
 
+    const [formationIsInvalid, setFormationIsInvalid] = useState(null)
+
     const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
 
     useEffect(() => {
@@ -92,6 +94,7 @@ const FormComponent = () => {
         setTeamList(arrayCopy);
     }
 
+    //Config flow is used when user click in a top five team
     const configFlow = (url) => {
 
         if(url.pathname.includes('/config')){
@@ -112,11 +115,27 @@ const FormComponent = () => {
 
      }
 
+     //Validate if all position of escalation has a player
+     const isInvalidFormation = (escalation) => {
+        let formQntd = formation.reduce((a,b) => +a + +b, 0); 
+
+        if(formQntd != escalation.length)
+            return true;
+        else
+            return false
+     }
+
     //Submit form
     const onFinish = values => {
 
         if (!values.players) {
             values.players = escalationList
+
+            if(isInvalidFormation(values.players))
+                return setFormationIsInvalid(true);
+            else
+                setFormationIsInvalid(false);
+                        
         }
 
         var url = new URL(window.location.href);
@@ -179,6 +198,7 @@ const FormComponent = () => {
         })
     }
 
+    //Render escaliton lines
     const renderEscalation = (lines, ref = "") =>{
 
         if(!lines) return;
@@ -200,6 +220,7 @@ const FormComponent = () => {
 
     return (
         <>
+        <button onClick={() => { console.log(formation) }}>teste</button>
             <Form
                 form={form}
                 layout="vertical"
@@ -333,6 +354,9 @@ const FormComponent = () => {
                                 </>
                                 : null} 
                         </div>
+                        { formationIsInvalid ? <div class="my-custom-validate ant-form-item-explain ant-form-item-explain-error">
+                            <div role="alert">Please complete your escalation!</div>
+                        </div> : null}
 
                         <Form.Item>
                             <Button className="submit-button" type="primary" htmlType="submit">
