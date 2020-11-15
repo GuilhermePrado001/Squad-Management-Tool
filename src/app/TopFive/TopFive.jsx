@@ -33,11 +33,13 @@ function TopFive() {
                         <Card
                             className="radius-modify avarage-card"
                             bordered={true}>
+
                             {sortedList.slice(0,5).map((e, i) => (
-                                <Link to={`/config/${e.index}`}>
+                                <Link key={i} to={`/config/${e.index}`}>
                                     <InfoCard key={i} name={e.name} avg={e.ageAvg} />
                                 </Link>
                             ))}
+                            
                         </Card>) :
                         (<Card>
                             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
@@ -52,11 +54,13 @@ function TopFive() {
                         <Card
                             className="radius-modify avarage-card"
                             bordered={true}>
+
                             {sortedList.slice(5,10).map((e, i) => (
-                                <Link to={`/config/${e.index}`}>
+                                <Link key={i} to={`/config/${e.index}`}>
                                     <InfoCard key={i} name={e.name} avg={e.ageAvg} />
                                 </Link>
                             ))}
+
                         </Card>) :
                         (<Card>
                             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />

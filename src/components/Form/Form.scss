@@ -86,14 +86,27 @@
     font-weight: 600;
 }
 
+.custom-wrapper{
+    width: 84vw;
+    display: contents;
+}
+
 @media only screen and (max-width: 990px) {
 
     .squad {
         max-height: 17rem;
         overflow-y: auto;
+        margin-bottom: 10px;
+    }
+
+    .custom-wrapper{
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
     }
   
 }
+
 
 
 

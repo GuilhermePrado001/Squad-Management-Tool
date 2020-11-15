@@ -220,7 +220,6 @@ const FormComponent = () => {
 
     return (
         <>
-        <button onClick={() => { console.log(formation) }}>teste</button>
             <Form
                 form={form}
                 layout="vertical"
@@ -304,97 +303,98 @@ const FormComponent = () => {
                 </Row>
 
                 <Row justify="center">
+                    <div className="custom-wrapper">
+                        <Col lg={{ span: 8 }} xs={{ span: 16 }}>
 
-                    <Col lg={{ span: 8 }} xs={{ span: 16 }}>
+                            <Form.Item
+                                className="label-teams"
+                                label="Formation"
+                                name="formation"
+                                rules={[{ required: true, message: 'Please select your team roster!' }]}
+                            >
 
-                        <Form.Item
-                            className="label-teams"
-                            label="Formation"
-                            name="formation"
-                            rules={[{ required: true, message: 'Please select your team roster!' }]}
-                        >
+                                <Select onChange={(e) => { formationHandler(e) }}>
+                                    {formations.map((value, i) => {
+                                        return <Select.Option key={i} value={value}>{value}</Select.Option>
+                                    })}
+                                </Select>
 
-                            <Select onChange={(e) => { formationHandler(e) }}>
-                                {formations.map((value, i) => {
-                                    return <Select.Option key={i} value={value}>{value}</Select.Option>
-                                })}
-                            </Select>
+                            </Form.Item>
 
-                        </Form.Item>
+                            <div className="escalation-squad">
 
-                        <div className="escalation-squad">
-
-                            {cleanFormation && formation.length > 0 ?
-                                <>
-                                    <div className="lineUp">
-                                        {
-                                            renderEscalation(+formation[0],"one")
-                                        }
-                                    </div>
-
-                                    <div className="lineUp">
-                                        {
-                                            renderEscalation(+formation[1],"two")
-                                        }
-                                    </div>
-
-                                    <div className="lineUp">
-                                        {
-                                            renderEscalation(+formation[2],"three")
-                                        }
-                                    </div>
-
-                                    {formation.length === 4 ?
+                                {cleanFormation && formation.length > 0 ?
+                                    <>
                                         <div className="lineUp">
                                             {
-                                                renderEscalation(+formation[3],"four")
+                                                renderEscalation(+formation[0],"one")
                                             }
-                                        </div> 
-                                    : null}
-                                </>
-                                : null} 
-                        </div>
-                        { formationIsInvalid ? <div class="my-custom-validate ant-form-item-explain ant-form-item-explain-error">
-                            <div role="alert">Please complete your escalation!</div>
-                        </div> : null}
+                                        </div>
 
-                        <Form.Item>
-                            <Button className="submit-button" type="primary" htmlType="submit">
-                                Save
-                            </Button>
-                        </Form.Item>
-                    </Col>
+                                        <div className="lineUp">
+                                            {
+                                                renderEscalation(+formation[1],"two")
+                                            }
+                                        </div>
 
-                    <Col lg={{ span: 8, offset: 1 }} xs={{ span: 16 }}>
+                                        <div className="lineUp">
+                                            {
+                                                renderEscalation(+formation[2],"three")
+                                            }
+                                        </div>
 
-                        <Form.Item className="label-teams" label="Search Players">
-                            <Input onPressEnter={searchHandler} placeholder="input placeholder" />
-                        </Form.Item>
+                                        {formation.length === 4 ?
+                                            <div className="lineUp">
+                                                {
+                                                    renderEscalation(+formation[3],"four")
+                                                }
+                                            </div> 
+                                        : null}
+                                    </>
+                                    : null} 
+                            </div>
+                            { formationIsInvalid ? <div class="my-custom-validate ant-form-item-explain ant-form-item-explain-error">
+                                <div role="alert">Please complete your escalation!</div>
+                            </div> : null}
 
-                        <div className="squad">
-                            {
-                                playerList.length > 0 && playerList[0].api.results !== 0 ?
-                                    playerList[0].api.players.map((e, i) => {
-                                        return (
-                                            <PlayerCard
-                                                key={i}
-                                                name={e.player_name}
-                                                age={e.age}
-                                                nacionality={e.nationality}
-                                                id={`player-${i}`}
-                                                draggable="true"
-                                                playerData={e}
-                                                index={i}
-                                            />
-                                        )
-                                    })
-                                    :
-                                    !loading ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <Spin className="spin-loadin" spinning={loading} delay={500}></Spin>
-                            }
-                        </div>
+                            <Form.Item>
+                                <Button className="submit-button" type="primary" htmlType="submit">
+                                    Save
+                                </Button>
+                            </Form.Item>
+                        </Col>
 
-                    </Col>
-                
+                        <Col lg={{ span: 8, offset: 1 }} xs={{ span: 16 }}>
+
+                            <Form.Item className="label-teams" label="Search Players">
+                                <Input onPressEnter={searchHandler} placeholder="input placeholder" />
+                            </Form.Item>
+
+                            <div className="squad">
+                                {
+                                    playerList.length > 0 && playerList[0].api.results !== 0 ?
+                                        playerList[0].api.players.map((e, i) => {
+                                            return (
+                                                <PlayerCard
+                                                    key={i}
+                                                    name={e.player_name}
+                                                    age={e.age}
+                                                    nacionality={e.nationality}
+                                                    id={`player-${i}`}
+                                                    draggable="true"
+                                                    playerData={e}
+                                                    index={i}
+                                                />
+                                            )
+                                        })
+                                        :
+                                        !loading ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <Spin className="spin-loadin" spinning={loading} delay={500}></Spin>
+                                }
+                            </div>
+
+                        </Col>
+
+                    </div>
                 </Row>
             </Form>
         </>
