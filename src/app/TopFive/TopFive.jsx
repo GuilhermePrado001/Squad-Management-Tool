@@ -4,6 +4,7 @@ import InfoCard from '../../components/InfoCard/InfoCard';
 import { useContext, useEffect, useState } from 'react';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
 import { AvgArrayCalc, SortFunc } from '../../utils/utils';
+import { Link } from 'react-router-dom';
 
 function TopFive() {
 
@@ -15,7 +16,7 @@ function TopFive() {
 
         ageAvg.map(e => {
             var result = AvgArrayCalc(e.ageList);
-            calc.push({ name: e.name, ageAvg: result })
+            calc.push({ index : e.index,name: e.name, ageAvg: result })
         })
 
         setSortedList(calc.sort(SortFunc));
@@ -33,7 +34,9 @@ function TopFive() {
                             className="radius-modify avarage-card"
                             bordered={true}>
                             {sortedList.slice(0,5).map((e, i) => (
-                                <InfoCard key={i} name={e.name} avg={e.ageAvg} />
+                                <Link to={`/config/${e.index}`}>
+                                    <InfoCard key={i} name={e.name} avg={e.ageAvg} />
+                                </Link>
                             ))}
                         </Card>) :
                         (<Card>
@@ -50,7 +53,9 @@ function TopFive() {
                             className="radius-modify avarage-card"
                             bordered={true}>
                             {sortedList.slice(5,10).map((e, i) => (
-                                <InfoCard key={i} name={e.name} avg={e.ageAvg} />
+                                <Link to={`/config/${e.index}`}>
+                                    <InfoCard key={i} name={e.name} avg={e.ageAvg} />
+                                </Link>
                             ))}
                         </Card>) :
                         (<Card>

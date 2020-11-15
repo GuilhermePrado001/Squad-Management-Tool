@@ -23,6 +23,7 @@ const formations = [
 ]
 
 var ageList = [];
+var teamData = null;
 
 const FormComponent = () => {
 
@@ -44,10 +45,17 @@ const FormComponent = () => {
     //clean formation on values change
     const [cleanFormation, setCleanFormation] = useState(true);
 
+    const [currentTeam, setCurrentTeam] = useState("my team");
+
     const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
 
     useEffect(() => {
         ageList = [];
+
+        var url = new URL(window.location.href);
+        configFlow(url);
+       
+
     }, [])
 
     //Start api for search players
@@ -76,13 +84,33 @@ const FormComponent = () => {
         //Still with the same index
         values.index = index;
 
-        var newAgeList = ageAvg.filter((item) => item.name !== arrayCopy[index].teamName)
+        var newAgeList = ageAvg.filter((item) => item.index !== arrayCopy[index].index)
 
         arrayCopy[index] = values;
 
-        setAgeAvg([...newAgeList, { name: values.teamName, ageList: ageList }])
+        setAgeAvg([...newAgeList, { index: values.index, name: values.teamName, ageList: ageList }])
         setTeamList(arrayCopy);
     }
+
+    const configFlow = (url) => {
+
+        if(url.pathname.includes('/config')){
+            var index = url.pathname.split('/')[2];
+
+            teamData = teamList.map(e => {
+               
+                if(e.index == index){          
+                    return e;
+                }
+
+            })
+     
+        
+            setCurrentTeam(teamData[0].teamName)
+           
+        }
+
+     }
 
     //Submit form
     const onFinish = values => {
@@ -104,7 +132,7 @@ const FormComponent = () => {
         //This index is independent of the ordering, it's necessary for edit 
         values.index = teamList.length
 
-        setAgeAvg([...ageAvg, { name: values.teamName, ageList: ageList }])
+        setAgeAvg([...ageAvg, { index: values.index ,name: values.teamName, ageList: ageList }])
         setTeamList([...teamList, values])
 
         history.push("/");

@@ -30,6 +30,9 @@ export const AvgArrayCalc = (array) => {
 
     var result = total / array.length
 
+    if(!result)
+        return 0;
+
     return result.toFixed(1);
 }
 

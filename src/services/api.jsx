@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://api-football-v1.p.rapidapi.com/v2/players/search/Messi",
+    baseURL: "https://api-football-v1.p.rapidapi.com/v2",
     headers:{
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",

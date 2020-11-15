@@ -34,6 +34,11 @@ function Layout() {
                                 render={() => <ManagmentPage title={<CardTitle title="Edit your Team"/>} />}
                                 exact
                             />
+                            <Route
+                                path="/config/:team"
+                                render={() => <ManagmentPage title={<CardTitle title="Config your Team"/>} />}
+                                exact
+                            />
                         </Switch>
                         </div> 
                 <Footer />
