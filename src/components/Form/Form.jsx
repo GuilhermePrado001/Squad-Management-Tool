@@ -71,6 +71,7 @@ const FormComponent = () => {
             return;
 
         setLoading(true)
+
         const data = await GetLineUp(e.target.value)
         setLoading(false)
 
@@ -109,7 +110,7 @@ const FormComponent = () => {
             })
      
         
-            setCurrentTeam(teamData[0].teamName)
+            setCurrentTeam(teamData[0])
            
         }
 
@@ -245,6 +246,7 @@ const FormComponent = () => {
                                     message: 'Please input your team name!',
                                 },
                             ]}
+                            
                         >
                             <Input placeholder="Insert team name" name="teamName" />
                         </Form.Item>
@@ -304,7 +306,7 @@ const FormComponent = () => {
 
                 <Row justify="center">
                     <div className="custom-wrapper">
-                        <Col lg={{ span: 8 }} xs={{ span: 16 }}>
+                        <Col lg={{ span: 8 }} >
 
                             <Form.Item
                                 className="label-teams"
@@ -364,7 +366,7 @@ const FormComponent = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col lg={{ span: 8, offset: 1 }} xs={{ span: 16 }}>
+                        <Col lg={{ span: 8, offset: 1 }}>
 
                             <Form.Item className="label-teams" label="Search Players">
                                 <Input onPressEnter={searchHandler} placeholder="input placeholder" />
