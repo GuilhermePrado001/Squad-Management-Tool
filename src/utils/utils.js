@@ -28,7 +28,9 @@ export const AvgArrayCalc = (array) => {
         total += array[i];
     }
 
-    return total / array.length;
+    var result = total / array.length
+
+    return result.toFixed(1);
 }
 
 export const MostPickedPlayer = (array) => {
@@ -74,3 +76,11 @@ export const LessPickedPlayer = (array) => {
 
     return itemin
 } 
+
+export const SortFunc = (a , b) => {
+
+    if(a.ageAvg > b.ageAvg) return -1;
+    if(a.ageAvg < b.ageAvg) return 1;
+
+    return 0;
+}
