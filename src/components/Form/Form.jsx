@@ -27,12 +27,22 @@ var ageList = [];
 const FormComponent = () => {
 
     const [form] = Form.useForm();
-
     let history = useHistory();
+
+    //store player list after the api result is done
     const [playerList, setPlayerList] = useState([]);
+
+    //store all selected player
     const [escalationList, setEscalationList] = useState([]);
+
+    //start the load when start search for players
     const [loading, setLoading] = useState(false);
+
+    //store formation for update when formation is changed
     const [formation, setFormation] = useState([]);
+
+    //clean formation on values change
+    const [cleanFormation, setCleanFormation] = useState(true);
 
     const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
 
@@ -40,6 +50,7 @@ const FormComponent = () => {
         ageList = [];
     }, [])
 
+    //Start api for search players
     const searchHandler = async (e) => {
 
         e.preventDefault();
@@ -56,37 +67,39 @@ const FormComponent = () => {
         setPlayerList([data]);
     }
 
+    //Made edit flow if url has 'edit' path
     const editFlow = (url, values) => {
         var index = url.pathname.split('/')[2];
-            
+
         var arrayCopy = [...teamList];
 
         //Still with the same index
         values.index = index;
 
         var newAgeList = ageAvg.filter((item) => item.name !== arrayCopy[index].teamName)
-        
+
         arrayCopy[index] = values;
-        
+
         setAgeAvg([...newAgeList, { name: values.teamName, ageList: ageList }])
         setTeamList(arrayCopy);
     }
 
+    //Submit form
     const onFinish = values => {
 
-        if (!values.players){
+        if (!values.players) {
             values.players = escalationList
         }
 
         var url = new URL(window.location.href);
 
-         if(url.pathname.includes('/edit')){
+        if (url.pathname.includes('/edit')) {
 
             editFlow(url, values)
 
             history.push("/");
             return;
-         }
+        }
 
         //This index is independent of the ordering, it's necessary for edit 
         values.index = teamList.length
@@ -97,14 +110,17 @@ const FormComponent = () => {
         history.push("/");
     };
 
+    //Scroll to error
     const onFinishFailed = values => {
         form.scrollToField(values.errorFields[0].name);
     }
 
+    //Prevent default comportament of browser when drag and drop is using, this comportament try open a file
     const allowDrop = (ev) => {
         ev.preventDefault();
     }
 
+    //event for droped field
     const drop = (ev) => {
         ev.preventDefault();
 
@@ -115,39 +131,43 @@ const FormComponent = () => {
 
         ageList.push(data.age);
         setEscalationList([...escalationList, data])
-        setAllPlayer([...allPlayer,data.player_name])
+        setAllPlayer([...allPlayer, data.player_name])
 
         document.getElementById(data.currentId).style.display = "none";
 
         ev.target.firstChild.innerText = GetAliasName(data.player_name);
     }
 
+    //On formation is changed
     const formationHandler = (e) => {
 
-        // setEscalationList([]);
+        setCleanFormation(false)
 
         var formationInfo = e.trim().split('-')
-        var lineUp = [];
-        
-        formationInfo.map((e, i) => {
-            lineUp.push(makeFormation(e, i));
-        })
+        setFormation(formationInfo);
 
-        setFormation(lineUp);
+        setTimeout(() => {
+            setCleanFormation(true)
+        })
     }
 
-    const makeFormation = (playerByPosition, i) => {
-        let lineUp = [];
+    const renderEscalation = (lines, ref = "") =>{
 
-        for (let index = 0; index < playerByPosition; index++) {
-            lineUp.push(
-                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line-${index}`}>
-                    <span></span>
-                </div>
-            )
-        }
+        if(!lines) return;
 
-        return { key: i, value: lineUp };
+        return(
+            <>
+                {
+                    [...Array(lines)].map((e,i) => {
+                        return (
+                            <div key={i} onDrop={(ev) => drop(ev)} onDragOver={(ev) => allowDrop(ev)} className={`line line-${ref}`}>
+                                <span><PlusOutlined /></span>
+                            </div>
+                        )
+                    })
+                }
+            </>
+        )
     }
 
     return (
@@ -159,10 +179,13 @@ const FormComponent = () => {
                 onFinishFailed={onFinishFailed}
             >
                 <Row justify="center">
+
                     <span className="form-session-team label-teams">TEAM INFORMATION</span>
+
                 </Row>
 
                 <Row justify="center">
+
                     <Col lg={{ span: 8 }} xs={{ span: 16 }}>
                         <Form.Item
                             name="teamName"
@@ -185,20 +208,20 @@ const FormComponent = () => {
                     </Col>
 
                     <Col lg={{ span: 8, offset: 1 }} xs={{ span: 16 }}>
+
                         <Form.Item
                             className="label-teams"
                             label="Team Website"
                             name="website"
+                            
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your Website!',                            
+                                    message: 'Please input your Website!',
                                 },
-                                {      
-                                    required: true,
-                                    type: "regexp",
-                                    pattern: new RegExp("@^(http\:\/\/|https\:\/\/)?([a-z0-9][a-z0-9\-]*\.)+[a-z0-9][a-z0-9\-]*$@i"),
-                                    message: "Wrong format!"
+                                {
+                                    type: "url",
+                                    message: "This field must be a valid url."
                                 }
                             ]}
                         >
@@ -222,13 +245,17 @@ const FormComponent = () => {
                             </Radio.Group>
                         </Form.Item>
                     </Col>
+
                 </Row>
 
                 <Row justify="center">
+
                     <span className="form-session-conf label-teams">CONFIGURE SQUAD</span>
+
                 </Row>
 
                 <Row justify="center">
+
                     <Col lg={{ span: 8 }} xs={{ span: 16 }}>
 
                         <Form.Item
@@ -247,58 +274,36 @@ const FormComponent = () => {
                         </Form.Item>
 
                         <div className="escalation-squad">
-                            <div className="lineUp">
-                                {
-                                    formation.length > 0 ?
-                                        formation[0].value.map((e, i) => {
-                                            return (
-                                                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line line-one`}>
-                                                    <span><PlusOutlined /></span>
-                                                </div>
-                                            )
-                                        }) : null
-                                }
-                            </div>
 
-                            <div className="lineUp">
-                                {
-                                    formation.length > 0 ?
-                                        formation[1].value.map((e, i) => {
-                                            return (
-                                                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line line-two`}>
-                                                    <span><PlusOutlined /></span>
-                                                </div>
-                                            )
-                                        }) : null
-                                }
-                            </div>
+                            {cleanFormation && formation.length > 0 ?
+                                <>
+                                    <div className="lineUp">
+                                        {
+                                            renderEscalation(+formation[0],"one")
+                                        }
+                                    </div>
 
-                            <div className="lineUp">
-                                {
-                                    formation.length > 0 ?
-                                        formation[2].value.map((e, i) => {
-                                            return (
-                                                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line line-three`}>
-                                                    <span><PlusOutlined /></span>
-                                                </div>
-                                            )
-                                        }) : null
-                                }
-                            </div>
+                                    <div className="lineUp">
+                                        {
+                                            renderEscalation(+formation[1],"two")
+                                        }
+                                    </div>
 
-                            <div className="lineUp">
-                                {
-                                    formation.length == 4 ?
-                                        formation[3].value.map((e, i) => {
-                                            return (
-                                                <div onDrop={(e) => drop(e)} onDragOver={(e) => allowDrop(e)} className={`line line-four`}>
-                                                    <span><PlusOutlined /></span>
-                                                </div>
-                                            )
-                                        }) : null
-                                }
-                            </div>
+                                    <div className="lineUp">
+                                        {
+                                            renderEscalation(+formation[2],"three")
+                                        }
+                                    </div>
 
+                                    {formation.length === 4 ?
+                                        <div className="lineUp">
+                                            {
+                                                renderEscalation(+formation[3],"four")
+                                            }
+                                        </div> 
+                                    : null}
+                                </>
+                                : null} 
                         </div>
 
                         <Form.Item>
@@ -337,6 +342,7 @@ const FormComponent = () => {
                         </div>
 
                     </Col>
+                
                 </Row>
             </Form>
         </>
