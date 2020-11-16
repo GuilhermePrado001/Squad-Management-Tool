@@ -35,7 +35,7 @@ function TopFive() {
                             bordered={true}>
 
                             {sortedList.slice(0,5).map((e, i) => (
-                                <Link key={i} to={`/config/${e.index}`}>
+                                <Link className="reset-link" key={i} to={`/config/${e.index}`}>
                                     <InfoCard key={i} name={e.name} avg={e.ageAvg} />
                                 </Link>
                             ))}

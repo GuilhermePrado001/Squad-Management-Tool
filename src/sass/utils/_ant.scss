@@ -3,3 +3,15 @@
 .ant-card-head-title{
     flex: initial;
 }
+
+.ant-radio-checked .ant-radio-inner{
+    border-color: rgb(155, 55, 124) !important ;
+}
+  
+.ant-radio-checked .ant-radio-inner:after{
+    background-color: rgb(155, 55, 124);
+}
+  
+.ant-radio:hover .ant-radio-inner {
+    border-color: rgb(155, 55, 124); 
+}

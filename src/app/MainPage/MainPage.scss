@@ -6,8 +6,8 @@
 
 .teams-card {
     flex: content;
-    max-height: 40rem;
-    margin-bottom: 4.5%;
+    max-height: 44rem;
+    // margin-bottom: 4.5%;
 }
 
 .top-five-card {
@@ -35,13 +35,14 @@
     background: $default-btn-color-hover !important; 
 }
 
-.most-picked {
-    height: 17.6rem;
+.most-picked-card {
+    height: 17rem;
     background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
 }
 
 .most-picked-container{
     display: flex;
+    justify-content: center;
 
     .picked{
         background-color: rgb(204, 154, 190);
@@ -58,36 +59,58 @@
         }
     }
 
+    .most-container{
+        flex: 1;
+    }
+
     .lessPicked {
-        margin: auto;
-        margin-right: 12%;
-        text-align: center;
         display: flex;
     }
 
     .mostPicked {
-        margin: auto;
-        margin-left: 12%;
-        text-align: center;
-        display: flex;
+        display: flex;  
     }
+
+    .text-label{
+        font-size: 1.5rem;
+        color: white;
+        font-weight: 600;
+    }
+
 }
 
-@media only screen and (max-width: 630px) {
+
+@media only screen and (max-width: 500px) {
+
+    .most-picked-card {
+        height: 23.6rem;
+    }
+
     .most-picked-container{
         display: block;
-        margin-top: 0;
+
         .mostPicked {
             margin: auto;
-            text-align: center;
             display: flex;
         }
 
+        
         .lessPicked {
             margin: auto;
-            margin-top: 10%;
-            text-align: center;
             display: flex;
+        }
+
+        .most-container{       
+            margin-left: 0px;
+        }
+    
+        .less-container{
+            margin-right: 0px;
+        }
+
+        .text-label {
+            display: flex;
+            justify-content: center;
         }
     }
 }

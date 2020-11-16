@@ -29,14 +29,14 @@ function MainPage() {
     ];
 
     const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
-    
+
     const [ allPlayer, setAllPlayer] = useState([])
 
     useEffect(() => {
 
-        players = null;
-        extractPlayersByTeam()
-         
+        players = null;      
+        extractPlayersByTeam() 
+        
     }, [teamList]) 
 
     const extractPlayersByTeam = () => {
@@ -52,23 +52,25 @@ function MainPage() {
                 <div className="actions">
 
                     <Popconfirm
-                        title="Are you sure delete this task?"
+                        title="Are you sure delete this team?"
                         onConfirm={() => {handleDelete(record.index); message.success(`You removed the ${record.teamName} team`)}}
                         okText="Yes"
                         cancelText="No"
                     >
-                    <Popover title="Delete" content="Click to remove a item">
-                            <DeleteFilled className="icon-action" />
-                    </Popover>
+                        <Popover title="Delete" content="Click to remove an item">
+                                <DeleteFilled className="icon-action" />
+                        </Popover>
                     </Popconfirm>
 
-                    <ShareAltOutlined className="icon-action" />
+                    <Popover title="Share" content="Click to share an item">
+                        <ShareAltOutlined className="icon-action" />
+                    </Popover>
 
-                    <Link className="reset-link" to={"/edit"}>
-                            <Link to={`/edit/${record.index}`}>
-                                <EditFilled className="icon-action" />
-                            </Link>
-                    </Link>
+                    <Popover title="Edit" content="Click to edit an item">
+                        <Link className="reset-link" to={`/edit/${record.index}`}>
+                            <EditFilled className="icon-action" />
+                        </Link>
+                    </Popover>
 
                 </div>
             </div>
@@ -88,7 +90,7 @@ function MainPage() {
             <div className="site-page-myteams">
                 <Row justify="center">
 
-                    <Col lg={{ span: 11 }} xs={{ span: 16 }}>
+                    <Col lg={{ span: 11 }} xs={{ span: 22 }}>
 
                         <Card
                             title={<CardTitle title={"My Team"} />}
@@ -106,7 +108,7 @@ function MainPage() {
 
                     </Col>
 
-                    <Col lg={{ span: 11, offset: 1 }} xs={{ span: 16 }}>
+                    <Col lg={{ span: 11, offset: 1 }} xs={{ span: 22 }}>
 
                         <Card
                             title={<CardTitle title={"Top 5"} />}
@@ -116,26 +118,30 @@ function MainPage() {
                         </Card>
 
                         <Card
-                            className="radius-modify most-picked"
+                            className="radius-modify most-picked-card"
                             bordered={true}>
 
                             <div className="most-picked-container">
                                
-                                        {mostPickedPlayer(allPlayer) ?
-
+                                    <div className="most-container">
+                                        <span className="text-label">Most picked player</span>
+                                        <Popover content={mostPickedPlayer(allPlayer)} title="Most picked player">
                                             <div className="picked mostPicked">               
-                                                <span>{getAliasName(mostPickedPlayer(allPlayer)) }</span>                                         
+                                                <span>{mostPickedPlayer(allPlayer) ? getAliasName(mostPickedPlayer(allPlayer)): null }</span>                                         
                                             </div>
-                                      
-                                        : null}
+                                        </Popover>    
+                                    </div>
                                         
-                                        {lessPickedPlayer(allPlayer) ?
-                                            
+                     
+                                    <div className="less-container">
+                                        <span className="text-label">Less picked player</span>
+                                        <Popover content={lessPickedPlayer(allPlayer)} title="Less picked player">
                                             <div className="picked lessPicked">
-                                                <span>{getAliasName(lessPickedPlayer(allPlayer))}</span>
+                                                <span>{lessPickedPlayer(allPlayer) ? getAliasName(lessPickedPlayer(allPlayer)): null}</span>
                                             </div> 
-                                        
-                                        : null}
+                                        </Popover> 
+                                    </div>
+                                      
                                                                      
                             </div>
                                                  

@@ -2,7 +2,7 @@
 export const getAliasName = (name) => {
 
     if (!name)
-        return "NF"
+        return null
 
     var splited_name = name.split(' ');
 
@@ -81,7 +81,7 @@ export const lessPickedPlayer = (array) => {
         m = 0;
     }
 
-    return itemin
+    return itemin;
 } 
 
 //Sort an array

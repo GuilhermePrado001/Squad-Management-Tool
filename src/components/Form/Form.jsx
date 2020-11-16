@@ -257,7 +257,6 @@ const FormComponent = () => {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
-                <Button onClick={() => { console.log(teamData) }}>TESTE</Button>
                 <Row justify="center">
 
                     <span className="form-session-team label-teams">TEAM INFORMATION</span>
@@ -389,7 +388,7 @@ const FormComponent = () => {
                                     </>
                                     : null} 
                             </div>
-                            { formationIsInvalid ? <div class="my-custom-validate ant-form-item-explain ant-form-item-explain-error">
+                            { formationIsInvalid ? <div className="my-custom-validate ant-form-item-explain ant-form-item-explain-error">
                                 <div role="alert">Please complete your escalation!</div>
                             </div> : null}
 
