@@ -1,6 +1,6 @@
 import { DeleteFilled, EditFilled, PlusOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Button, Card, Col, message, Popconfirm, Popover, Row } from 'antd';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CardTitle from '../../components/CardTitle/CardTitle';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
@@ -28,20 +28,16 @@ function MainPage() {
         }
     ];
 
-    const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
+    const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
     
+    const [ allPlayer, setAllPlayer] = useState([])
+
     useEffect(() => {
+
         players = null;
-
-        if(teamList)
-            extractPlayersByTeam()
-
-        console.log(mostPickedPlayer(allPlayer))
-    }, []) 
-
-    useEffect(() => {
-        
-    },[allPlayer])
+        extractPlayersByTeam()
+         
+    }, [teamList]) 
 
     const extractPlayersByTeam = () => {
         players = teamList.map(e => e.players);

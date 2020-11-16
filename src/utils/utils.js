@@ -58,7 +58,6 @@ export const mostPickedPlayer = (array) => {
         m = 0;
     }
    
-    console.log((mf/array.length) * 100)
     return item;
 }
 

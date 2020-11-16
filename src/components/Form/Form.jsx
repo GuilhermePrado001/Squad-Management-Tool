@@ -55,7 +55,7 @@ const FormComponent = () => {
     //Store tags
     const [tags , setTags] = useState([]);
 
-    const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
+    const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
 
     useEffect(() => {
         ageList = [];
@@ -198,7 +198,6 @@ const FormComponent = () => {
 
         ageList.push(data.age);
         setEscalationList([...escalationList, data])
-        // setAllPlayer([...allPlayer, data.player_name])
 
         document.getElementById(data.currentId).style.display = "none";
  
