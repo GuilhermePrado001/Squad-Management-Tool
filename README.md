@@ -2,7 +2,7 @@
 
 ## Script
 
-Run "npm install" to install all dependencies.
+Run "npm install" on branch "master" to install all dependencies.
 
 Now it is necessary to start the application by running the command "npm start" the application must go up at "http://localhost:3000"
 
