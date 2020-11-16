@@ -28,17 +28,17 @@ function MainPage() {
 
     const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
     
-    const descriptionRender = (text, record, index) => {
+    const descriptionRender = (text, record) => {
         return (
             <div className="column-description">
                 <span>{text}</span>
                 <div className="actions">
 
-                    <a className="reset-link">
-                        <Popover title="Delete" content="Click to remove a item">
-                            <DeleteFilled className="icon-action" />
-                        </Popover>
-                    </a>
+                  
+                    <Popover title="Delete" content="Click to remove a item">
+                        <DeleteFilled onClick={() => handleDelete(record.index)} className="icon-action" />
+                    </Popover>
+                   
 
                     <ShareAltOutlined className="icon-action" />
 
@@ -53,12 +53,12 @@ function MainPage() {
         )
     }
 
-    const handleDelete = (teamName) => {
+    const handleDelete = (index) => {
         const dataSource = [...teamList]
         const avgDataSource = [...ageAvg]
 
-        setTeamList(dataSource.filter((item) => item.teamName !== teamName))
-        setAgeAvg(avgDataSource.filter((item) => item.name !== teamName))
+        setTeamList(dataSource.filter((item) => item.index !== index))
+        setAgeAvg(avgDataSource.filter((item) => item.index !== index))
     }
 
     return (

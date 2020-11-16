@@ -24,6 +24,8 @@ const formations = [
 
 var ageList = [];
 var teamData = null;
+var isEditMode = false;
+var index = null;
 
 const FormComponent = () => {
 
@@ -45,19 +47,22 @@ const FormComponent = () => {
     //clean formation on values change
     const [cleanFormation, setCleanFormation] = useState(true);
 
-    const [currentTeam, setCurrentTeam] = useState("my team");
-
+    //Control error msg for escalation validate
     const [formationIsInvalid, setFormationIsInvalid] = useState(null)
 
     const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
 
     useEffect(() => {
         ageList = [];
+        teamData = null;
+        isEditMode = false;
+        index = null;
 
         var url = new URL(window.location.href);
-        configFlow(url);
-       
 
+        //When user click in edit/config team we pre load team informations
+        LoadInformation(url);
+       
     }, [])
 
     //Start api for search players
@@ -73,14 +78,14 @@ const FormComponent = () => {
         setLoading(true)
 
         const data = await GetLineUp(e.target.value)
+
         setLoading(false)
 
         setPlayerList([data]);
     }
 
-    //Made edit flow if url has 'edit' path
-    const editFlow = (url, values) => {
-        var index = url.pathname.split('/')[2];
+    //Made edit flow if url has 'edit or config' path
+    const editFlow = (values) => {
 
         var arrayCopy = [...teamList];
 
@@ -91,47 +96,57 @@ const FormComponent = () => {
 
         arrayCopy[index] = values;
 
-        setAgeAvg([...newAgeList, { index: values.index, name: values.teamName, ageList: ageList }])
+        if(ageList.length > 0)
+            setAgeAvg([...newAgeList, { index: values.index ,name: values.teamName, ageList: ageList }])
+
         setTeamList(arrayCopy);
     }
 
     //Config flow is used when user click in a top five team
-    const configFlow = (url) => {
+    const LoadInformation = (url) => {
 
-        if(url.pathname.includes('/config')){
-            var index = url.pathname.split('/')[2];
-
-            teamData = teamList.map(e => {
-               
-                if(e.index == index){          
-                    return e;
-                }
-
-            })
-     
+        if(!url.pathname.includes('/config') && !url.pathname.includes('/edit'))
+            return;
         
-            setCurrentTeam(teamData[0])
-           
-        }
+        isEditMode = true;    
+        index = url.pathname.split('/')[2];
+      
+        teamData = teamList.map(e => {     
+            if(e.index == index)       
+                return e;           
+        })
+ 
+        form.setFieldsValue(teamData[index]);
 
-     }
+        setFormation(teamData[index].formation.trim().split('-')) 
+        setEscalationList(teamData[index].players)
 
-     //Validate if all position of escalation has a player
-     const isInvalidFormation = (escalation) => {
+        setTimeout(() => {
+            document.querySelectorAll('.line').forEach((e,i) => {
+                e.firstChild.innerText = GetAliasName(teamData[index].players[i].player_name)
+                ageList.push(teamData[index].players[i].age)
+            })
+        },100)
+            
+    }
+
+    //Validate if all position of escalation has a player
+    const isInvalidFormation = (escalation) => {
         let formQntd = formation.reduce((a,b) => +a + +b, 0); 
 
         if(formQntd != escalation.length)
             return true;
         else
             return false
-     }
+    }
 
     //Submit form
     const onFinish = values => {
-
+  
         if (!values.players) {
             values.players = escalationList
 
+            //Validate if escalation has players
             if(isInvalidFormation(values.players))
                 return setFormationIsInvalid(true);
             else
@@ -141,9 +156,10 @@ const FormComponent = () => {
 
         var url = new URL(window.location.href);
 
-        if (url.pathname.includes('/edit')) {
+        //if user edit or config team we needed update your informations
+        if (url.pathname.includes('/edit') || url.pathname.includes('/config')) {
 
-            editFlow(url, values)
+            editFlow(values)
 
             history.push("/");
             return;
@@ -189,6 +205,8 @@ const FormComponent = () => {
     //On formation is changed
     const formationHandler = (e) => {
 
+        ageList = [];         
+        setEscalationList([])
         setCleanFormation(false)
 
         var formationInfo = e.trim().split('-')
@@ -219,6 +237,18 @@ const FormComponent = () => {
         )
     }
 
+    const teste = () => {
+        console.log("Formation")
+        console.log(formation)
+
+        console.log("Escalation")
+        console.log(escalationList)
+
+        console.log("Age")
+        console.log(ageAvg)
+
+    }
+
     return (
         <>
             <Form
@@ -227,6 +257,7 @@ const FormComponent = () => {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
+                <button type="button" onClick={() => teste()}>teste</button>
                 <Row justify="center">
 
                     <span className="form-session-team label-teams">TEAM INFORMATION</span>
@@ -245,8 +276,7 @@ const FormComponent = () => {
                                     required: true,
                                     message: 'Please input your team name!',
                                 },
-                            ]}
-                            
+                            ]}                          
                         >
                             <Input placeholder="Insert team name" name="teamName" />
                         </Form.Item>
@@ -306,6 +336,7 @@ const FormComponent = () => {
 
                 <Row justify="center">
                     <div className="custom-wrapper">
+
                         <Col lg={{ span: 8 }} >
 
                             <Form.Item
