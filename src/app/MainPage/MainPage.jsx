@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CardTitle from '../../components/CardTitle/CardTitle';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
-import { GetAliasName, LessPickedPlayer, MostPickedPlayer } from '../../utils/utils';
+import { getAliasName, lessPickedPlayer, mostPickedPlayer } from '../../utils/utils';
 import MyTeam from '../MyTeam/MyTeam';
 import TopFive from '../TopFive/TopFive';
 import './MainPage.scss';
@@ -103,18 +103,18 @@ function MainPage() {
 
                             <div className="most-picked-container">
                                
-                                        {MostPickedPlayer(allPlayer) ?
+                                        {mostPickedPlayer(allPlayer) ?
 
                                             <div className="picked mostPicked">               
-                                                <span>{GetAliasName(MostPickedPlayer(allPlayer)) }</span>                                         
+                                                <span>{getAliasName(mostPickedPlayer(allPlayer)) }</span>                                         
                                             </div>
                                       
                                         : null}
                                         
-                                        {LessPickedPlayer(allPlayer) ?
+                                        {lessPickedPlayer(allPlayer) ?
                                             
                                             <div className="picked lessPicked">
-                                                <span>{GetAliasName(LessPickedPlayer(allPlayer))}</span>
+                                                <span>{getAliasName(lessPickedPlayer(allPlayer))}</span>
                                             </div> 
                                         
                                         : null}

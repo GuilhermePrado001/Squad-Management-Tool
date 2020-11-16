@@ -108,5 +108,22 @@
 
 
 
+.react-tagsinput {
+    height: 6.7rem;
+}
 
+.react-tagsinput--focused {
+    border-color: #ccc !important;
+}
+
+.react-tagsinput-tag {
+    background-color: rgb(197, 3, 65) !important;
+    border-radius: 20px !important;
+    border: 1px solid	rgb(234, 164, 187) !important;
+    color: 	rgb(234, 164, 187) !important;
+}
+
+.react-tagsinput-remove{
+    color: 	rgb(234, 164, 187) !important;  
+}
 

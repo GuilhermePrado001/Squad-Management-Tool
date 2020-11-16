@@ -5,9 +5,11 @@ import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
 import { GetLineUp } from '../../services/Repository/Football';
-import { GetAliasName } from '../../utils/utils';
+import { getAliasName } from '../../utils/utils';
 import '../Form/Form.scss';
 import PlayerCard from '../PlayerCard/PlayerCard';
+import TagsInput from 'react-tagsinput';
+import 'react-tagsinput/react-tagsinput.css'
 
 const formations = [
     "3 - 2 - 2 - 3",
@@ -49,6 +51,9 @@ const FormComponent = () => {
 
     //Control error msg for escalation validate
     const [formationIsInvalid, setFormationIsInvalid] = useState(null)
+
+    //Store tags
+    const [tags , setTags] = useState([]);
 
     const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
 
@@ -92,13 +97,13 @@ const FormComponent = () => {
         //Still with the same index
         values.index = index;
 
+        //Remove the old values in case that escalation players is changed
         var newAgeList = ageAvg.filter((item) => item.index !== arrayCopy[index].index)
 
         arrayCopy[index] = values;
 
-        if(ageList.length > 0)
-            setAgeAvg([...newAgeList, { index: values.index ,name: values.teamName, ageList: ageList }])
-
+        //Add new values
+        setAgeAvg([...newAgeList, { index: values.index ,name: values.teamName, ageList: ageList }])
         setTeamList(arrayCopy);
     }
 
@@ -120,10 +125,12 @@ const FormComponent = () => {
 
         setFormation(teamData[index].formation.trim().split('-')) 
         setEscalationList(teamData[index].players)
+        setTags(teamData[index].tags)
 
+        //Put the player on the escalation
         setTimeout(() => {
             document.querySelectorAll('.line').forEach((e,i) => {
-                e.firstChild.innerText = GetAliasName(teamData[index].players[i].player_name)
+                e.firstChild.innerText = getAliasName(teamData[index].players[i].player_name)
                 ageList.push(teamData[index].players[i].age)
             })
         },100)
@@ -143,17 +150,15 @@ const FormComponent = () => {
     //Submit form
     const onFinish = values => {
   
-        if (!values.players) {
-            values.players = escalationList
+        values.players = escalationList
+        values.tags = tags;
 
-            //Validate if escalation has players
-            if(isInvalidFormation(values.players))
-                return setFormationIsInvalid(true);
-            else
-                setFormationIsInvalid(false);
+        //Validate if escalation has players
+        if(isInvalidFormation(values.players))
+            return setFormationIsInvalid(true);
+        else
+            setFormationIsInvalid(false);
                         
-        }
-
         var url = new URL(window.location.href);
 
         //if user edit or config team we needed update your informations
@@ -200,11 +205,11 @@ const FormComponent = () => {
         document.getElementById(data.currentId).style.display = "none";
  
         if(ev.target.tagName === 'svg')
-            ev.target.parentNode.parentNode.innerText = GetAliasName(data.player_name);
+            ev.target.parentNode.parentNode.innerText = getAliasName(data.player_name);
         else if (ev.target.tagName === 'path')
-            ev.target.parentNode.parentNode.parentNode.innerText = GetAliasName(data.player_name);
+            ev.target.parentNode.parentNode.parentNode.innerText = getAliasName(data.player_name);
         else
-            ev.target.firstChild.innerText = GetAliasName(data.player_name);
+            ev.target.firstChild.innerText = getAliasName(data.player_name);
     }
 
     //On formation is changed
@@ -242,16 +247,9 @@ const FormComponent = () => {
         )
     }
 
-    const teste = () => {
-        console.log("Formation")
-        console.log(formation)
-
-        console.log("Escalation")
-        console.log(escalationList)
-
-        console.log("Age")
-        console.log(ageAvg)
-
+    //Control tags states
+    const handleTagChange = (tags) => {
+        setTags(tags)
     }
 
     return (
@@ -262,7 +260,6 @@ const FormComponent = () => {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
-                <button type="button" onClick={() => teste()}>teste</button>
                 <Row justify="center">
 
                     <span className="form-session-team label-teams">TEAM INFORMATION</span>
@@ -288,7 +285,7 @@ const FormComponent = () => {
 
 
                         <Form.Item name="description" label="Description" className="label-teams"  >
-                            <TextArea name="description" rows={6} />
+                            <TextArea name="description" rows={7}  />
                         </Form.Item>
                     </Col>
 
@@ -329,6 +326,9 @@ const FormComponent = () => {
                                 <Radio value="Fantasy">Fantasy</Radio>
                             </Radio.Group>
                         </Form.Item>
+
+                        {<TagsInput value={tags} onChange={handleTagChange} addKeys={[191,13]} />}
+
                     </Col>
 
                 </Row>
@@ -434,6 +434,7 @@ const FormComponent = () => {
 
                     </div>
                 </Row>
+           
             </Form>
         </>
     );

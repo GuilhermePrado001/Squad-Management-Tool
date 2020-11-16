@@ -3,7 +3,7 @@ import { Card, Col, Row, Empty } from 'antd';
 import InfoCard from '../../components/InfoCard/InfoCard';
 import { useContext, useEffect, useState } from 'react';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
-import { AvgArrayCalc, SortFunc } from '../../utils/utils';
+import { avgArrayCalc, sortFunc } from '../../utils/utils';
 import { Link } from 'react-router-dom';
 
 function TopFive() {
@@ -15,11 +15,11 @@ function TopFive() {
         var calc = [];
 
         ageAvg.map(e => {
-            var result = AvgArrayCalc(e.ageList);
+            var result = avgArrayCalc(e.ageList);
             calc.push({ index : e.index,name: e.name, ageAvg: result })
         })
 
-        setSortedList(calc.sort(SortFunc));
+        setSortedList(calc.sort(sortFunc));
 
     }, [ageAvg])
 

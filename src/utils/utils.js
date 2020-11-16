@@ -1,4 +1,5 @@
-export const GetAliasName = (player_name) => {
+//Make the alias with name, for example Guilherme Prado => GP
+export const getAliasName = (player_name) => {
 
     if (!player_name)
         return "NF"
@@ -17,7 +18,8 @@ export const GetAliasName = (player_name) => {
     return firstLetter.concat(secondLetter)
 }
 
-export const AvgArrayCalc = (array) => {
+//Calc the Avarage in a number array
+export const avgArrayCalc = (array) => {
 
     if (!array)
         return;
@@ -36,7 +38,8 @@ export const AvgArrayCalc = (array) => {
     return result.toFixed(1);
 }
 
-export const MostPickedPlayer = (array) => {
+//Get the most picked player
+export const mostPickedPlayer = (array) => {
 
     var mf = 1;
     var m = 0;
@@ -58,7 +61,8 @@ export const MostPickedPlayer = (array) => {
     return item;
 }
 
-export const LessPickedPlayer = (array) => {
+//Get the less picked player
+export const lessPickedPlayer = (array) => {
 
     var mif = Number.POSITIVE_INFINITY;
     var m = 0;
@@ -80,7 +84,8 @@ export const LessPickedPlayer = (array) => {
     return itemin
 } 
 
-export const SortFunc = (a , b) => {
+//Sort an array
+export const sortFunc = (a , b) => {
 
     if(a.ageAvg > b.ageAvg) return -1;
     if(a.ageAvg < b.ageAvg) return 1;
