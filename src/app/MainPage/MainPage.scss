@@ -7,7 +7,6 @@
 .teams-card {
     flex: content;
     max-height: 40rem;
-    overflow-y: auto;
     margin-bottom: 4.5%;
 }
 
@@ -37,7 +36,7 @@
 }
 
 .most-picked {
-    height: 15rem;
+    height: 17.6rem;
     background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
 }
 

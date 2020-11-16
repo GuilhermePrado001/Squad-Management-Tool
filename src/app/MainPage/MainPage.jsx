@@ -1,6 +1,6 @@
 import { DeleteFilled, EditFilled, PlusOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Popconfirm, Popover, Row } from 'antd';
-import { useState, useContext } from 'react';
+import { Button, Card, Col, message, Popconfirm, Popover, Row } from 'antd';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CardTitle from '../../components/CardTitle/CardTitle';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
@@ -34,11 +34,16 @@ function MainPage() {
                 <span>{text}</span>
                 <div className="actions">
 
-                  
+                    <Popconfirm
+                        title="Are you sure delete this task?"
+                        onConfirm={() => {handleDelete(record.index); message.success(`You removed the ${record.teamName} team`)}}
+                        okText="Yes"
+                        cancelText="No"
+                    >
                     <Popover title="Delete" content="Click to remove a item">
-                        <DeleteFilled onClick={() => handleDelete(record.index)} className="icon-action" />
+                            <DeleteFilled className="icon-action" />
                     </Popover>
-                   
+                    </Popconfirm>
 
                     <ShareAltOutlined className="icon-action" />
 

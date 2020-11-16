@@ -198,8 +198,13 @@ const FormComponent = () => {
         setAllPlayer([...allPlayer, data.player_name])
 
         document.getElementById(data.currentId).style.display = "none";
-
-        ev.target.firstChild.innerText = GetAliasName(data.player_name);
+ 
+        if(ev.target.tagName === 'svg')
+            ev.target.parentNode.parentNode.innerText = GetAliasName(data.player_name);
+        else if (ev.target.tagName === 'path')
+            ev.target.parentNode.parentNode.parentNode.innerText = GetAliasName(data.player_name);
+        else
+            ev.target.firstChild.innerText = GetAliasName(data.player_name);
     }
 
     //On formation is changed
