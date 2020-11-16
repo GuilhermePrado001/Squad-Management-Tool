@@ -10,6 +10,7 @@ import '../Form/Form.scss';
 import PlayerCard from '../PlayerCard/PlayerCard';
 import TagsInput from 'react-tagsinput';
 import 'react-tagsinput/react-tagsinput.css'
+import { debounce, throttle } from 'lodash';
 
 const formations = [
     "3 - 2 - 2 - 3",
@@ -71,7 +72,7 @@ const FormComponent = () => {
     }, [])
 
     //Start api for search players
-    const searchHandler = async (e) => {
+    const searchHandler = debounce(async (e) => {
 
         e.preventDefault();
 
@@ -87,7 +88,7 @@ const FormComponent = () => {
         setLoading(false)
 
         setPlayerList([data]);
-    }
+    },1000)
 
     //Made edit flow if url has 'edit or config' path
     const editFlow = (values) => {
@@ -405,7 +406,7 @@ const FormComponent = () => {
                         <Col lg={{ span: 8, offset: 1 }}>
 
                             <Form.Item className="label-teams" label="Search Players">
-                                <Input onPressEnter={searchHandler} placeholder="input placeholder" />
+                                <Input onChange={searchHandler} placeholder="Type for search a player" />
                             </Form.Item>
 
                             <div className="squad">
