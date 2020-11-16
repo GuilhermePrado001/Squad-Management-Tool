@@ -1,6 +1,6 @@
 import { DeleteFilled, EditFilled, PlusOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Button, Card, Col, message, Popconfirm, Popover, Row } from 'antd';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CardTitle from '../../components/CardTitle/CardTitle';
 import { ManagementTeamContext } from '../../context/ManagementTeamContext';
@@ -8,6 +8,8 @@ import { getAliasName, lessPickedPlayer, mostPickedPlayer } from '../../utils/ut
 import MyTeam from '../MyTeam/MyTeam';
 import TopFive from '../TopFive/TopFive';
 import './MainPage.scss';
+
+var players = null;
 
 function MainPage() {
 
@@ -28,6 +30,25 @@ function MainPage() {
 
     const { teamList, setTeamList, ageAvg, setAgeAvg, allPlayer, setAllPlayer } = useContext(ManagementTeamContext);
     
+    useEffect(() => {
+        players = null;
+
+        if(teamList)
+            extractPlayersByTeam()
+
+        console.log(mostPickedPlayer(allPlayer))
+    }, []) 
+
+    useEffect(() => {
+        
+    },[allPlayer])
+
+    const extractPlayersByTeam = () => {
+        players = teamList.map(e => e.players);
+        setAllPlayer([].concat.apply([],players))
+    }
+
+    //Render column description
     const descriptionRender = (text, record) => {
         return (
             <div className="column-description">
@@ -70,6 +91,7 @@ function MainPage() {
         <>        
             <div className="site-page-myteams">
                 <Row justify="center">
+
                     <Col lg={{ span: 11 }} xs={{ span: 16 }}>
 
                         <Card

@@ -27,7 +27,6 @@ const formations = [
 
 var ageList = [];
 var teamData = null;
-var isEditMode = false;
 var index = null;
 
 const FormComponent = () => {
@@ -61,7 +60,6 @@ const FormComponent = () => {
     useEffect(() => {
         ageList = [];
         teamData = null;
-        isEditMode = false;
         index = null;
 
         var url = new URL(window.location.href);
@@ -113,8 +111,7 @@ const FormComponent = () => {
 
         if(!url.pathname.includes('/config') && !url.pathname.includes('/edit'))
             return;
-        
-        isEditMode = true;    
+          
         index = url.pathname.split('/')[2];
       
         teamData = teamList.map(e => {     
@@ -201,7 +198,7 @@ const FormComponent = () => {
 
         ageList.push(data.age);
         setEscalationList([...escalationList, data])
-        setAllPlayer([...allPlayer, data.player_name])
+        // setAllPlayer([...allPlayer, data.player_name])
 
         document.getElementById(data.currentId).style.display = "none";
  
@@ -261,12 +258,13 @@ const FormComponent = () => {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
+                <Button onClick={() => { console.log(teamData) }}>TESTE</Button>
                 <Row justify="center">
 
                     <span className="form-session-team label-teams">TEAM INFORMATION</span>
 
                 </Row>
-
+                
                 <Row justify="center">
 
                     <Col lg={{ span: 8 }} xs={{ span: 16 }}>

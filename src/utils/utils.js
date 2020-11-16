@@ -1,10 +1,10 @@
 //Make the alias with name, for example Guilherme Prado => GP
-export const getAliasName = (player_name) => {
+export const getAliasName = (name) => {
 
-    if (!player_name)
+    if (!name)
         return "NF"
 
-    var splited_name = player_name.split(' ');
+    var splited_name = name.split(' ');
 
     if (splited_name.length == 1) {
         let firstLetter = splited_name[0].substring(0, 1);
@@ -47,17 +47,18 @@ export const mostPickedPlayer = (array) => {
 
     for (var i = 0; i < array.length; i++) {
         for (var j = i; j < array.length; j++) {
-            if (array[i] == array[j])
+            if (array[i].player_name == array[j].player_name)
                 m++;
 
             if (mf < m) {
                 mf = m;
-                item = array[i];
+                item = array[i].player_name;
             }
         }
         m = 0;
     }
-    console.log(item)
+   
+    console.log((mf/array.length) * 100)
     return item;
 }
 
@@ -70,12 +71,12 @@ export const lessPickedPlayer = (array) => {
 
     for (var i = 0; i < array.length; i++) {
         for (var j = 0; j < array.length; j++) {
-            if (array[i] == array[j])
+            if (array[i].player_name == array[j].player_name)
                 m++;
         }
         if (mif > m) {
             mif = m;
-            itemin = array[i];
+            itemin = array[i].player_name;
         }
 
         m = 0;
