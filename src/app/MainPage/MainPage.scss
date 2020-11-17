@@ -36,7 +36,9 @@
 }
 
 .most-picked-card {
-    height: 17rem;
+    height: 15.2rem;
+    max-height: 28rem;
+    min-height: 15.2rem;
     background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
 }
 
@@ -51,6 +53,8 @@
         width: 12vw;
         min-width: 8rem;
         min-height: 8rem;
+        max-width: 12rem;
+        max-height: 12rem;
         border: dashed 1px; 
         
         span{
@@ -111,6 +115,25 @@
         .text-label {
             display: flex;
             justify-content: center;
+        }
+    }
+}
+
+@media only screen and (min-width: 1440px) {
+
+    .most-picked-card {
+        height: 18.2rem;
+
+    }
+
+    .most-picked-container{
+        
+        .most-container{
+            margin-left: 6vw;
+        }
+        
+        .less-container {
+            margin-right: 6vw;
         }
     }
 }

@@ -139,7 +139,7 @@ const FormComponent = () => {
     const isInvalidFormation = (escalation) => {
         let formQntd = formation.reduce((a,b) => +a + +b, 0); 
 
-        if(formQntd != escalation.length)
+        if(escalation.length < formQntd)
             return true;
         else
             return false
@@ -200,11 +200,13 @@ const FormComponent = () => {
         setEscalationList([...escalationList, data])
 
         document.getElementById(data.currentId).style.display = "none";
- 
+
         if(ev.target.tagName === 'svg')
             ev.target.parentNode.parentNode.innerText = getAliasName(data.player_name);
         else if (ev.target.tagName === 'path')
             ev.target.parentNode.parentNode.parentNode.innerText = getAliasName(data.player_name);
+        else if (ev.target.tagName === 'SPAN')
+            ev.target.innerText = getAliasName(data.player_name);
         else
             ev.target.firstChild.innerText = getAliasName(data.player_name);
     }
@@ -251,6 +253,7 @@ const FormComponent = () => {
 
     return (
         <>
+        <Button onClick={() => {console.log(escalationList)}}>teste</Button>
             <Form
                 form={form}
                 layout="vertical"
@@ -403,8 +406,14 @@ const FormComponent = () => {
 
                             <Form.Item className="label-teams" label="Search Players">
                                 <Input onChange={searchHandler} placeholder="Type for search a player" />
-                            </Form.Item>
 
+                                {playerList.length > 0 && playerList[0].api.error ? 
+                                (<div className="my-custom-validate ant-form-item-explain ant-form-item-explain-error">
+                                        <div role="alert">{playerList[0].api.error}</div>
+                                </div>) : null}
+
+                            </Form.Item>
+                             {console.log(playerList)}       
                             <div className="squad">
                                 {
                                     playerList.length > 0 && playerList[0].api.results !== 0 ?
@@ -426,7 +435,7 @@ const FormComponent = () => {
                                         !loading ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <Spin className="spin-loadin" spinning={loading} delay={500}></Spin>
                                 }
                             </div>
-
+                           
                         </Col>
 
                     </div>
