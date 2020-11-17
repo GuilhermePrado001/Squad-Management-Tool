@@ -36,9 +36,9 @@
 }
 
 .most-picked-card {
-    height: 18rem;
+    height: 15.2rem;
     max-height: 28rem;
-    min-height: 17rem;
+    min-height: 15.2rem;
     background: linear-gradient(to bottom, rgb(166, 56, 124),rgb(132, 47, 127));
 }
 
@@ -120,6 +120,11 @@
 }
 
 @media only screen and (min-width: 1440px) {
+
+    .most-picked-card {
+        height: 18.2rem;
+
+    }
 
     .most-picked-container{
         
