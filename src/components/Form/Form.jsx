@@ -404,7 +404,7 @@ const FormComponent = () => {
                             <Form.Item className="label-teams" label="Search Players">
                                 <Input onChange={searchHandler} placeholder="Type for search a player" />
                             </Form.Item>
-
+                            {console.log(playerList)}
                             <div className="squad">
                                 {
                                     playerList.length > 0 && playerList[0].api.results !== 0 ?
