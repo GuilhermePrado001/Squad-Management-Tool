@@ -403,8 +403,14 @@ const FormComponent = () => {
 
                             <Form.Item className="label-teams" label="Search Players">
                                 <Input onChange={searchHandler} placeholder="Type for search a player" />
+
+                                {playerList.length > 0 && playerList[0].api.error ? 
+                                (<div className="my-custom-validate ant-form-item-explain ant-form-item-explain-error">
+                                        <div role="alert">{playerList[0].api.error}</div>
+                                </div>) : null}
+                                
                             </Form.Item>
-                            {console.log(playerList)}
+                        
                             <div className="squad">
                                 {
                                     playerList.length > 0 && playerList[0].api.results !== 0 ?
@@ -426,7 +432,7 @@ const FormComponent = () => {
                                         !loading ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <Spin className="spin-loadin" spinning={loading} delay={500}></Spin>
                                 }
                             </div>
-
+                           
                         </Col>
 
                     </div>
