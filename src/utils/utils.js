@@ -1,7 +1,7 @@
 //Make the alias with name, for example Guilherme Prado => GP
 export const getAliasName = (name) => {
 
-    if (!name)
+    if (!name || name.length === 0)
         return null
 
     var splited_name = name.split(' ');
@@ -57,8 +57,11 @@ export const mostPickedPlayer = (array) => {
         }
         m = 0;
     }
-   
-    return item;
+    
+    if(!item)
+        return {name: "", times: "" };
+
+    return {name: item, times: mf };
 }
 
 //Get the less picked player
@@ -81,7 +84,7 @@ export const lessPickedPlayer = (array) => {
         m = 0;
     }
 
-    return itemin;
+    return {name: itemin, times: mif };
 } 
 
 //Sort an array

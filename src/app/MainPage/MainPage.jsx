@@ -29,8 +29,8 @@ function MainPage() {
     ];
 
     const { teamList, setTeamList, ageAvg, setAgeAvg } = useContext(ManagementTeamContext);
-
-    const [ allPlayer, setAllPlayer] = useState([])
+    const [ mostPicked, setMostPicked] = useState([])
+    const [ lessPicked, setLessPicked] = useState([])
 
     useEffect(() => {
 
@@ -41,7 +41,19 @@ function MainPage() {
 
     const extractPlayersByTeam = () => {
         players = teamList.map(e => e.players);
-        setAllPlayer([].concat.apply([],players))
+        var concatedPlayers = [].concat.apply([],players)
+      
+        setMostPicked(mostPickedPlayer(concatedPlayers))
+        setLessPicked(lessPickedPlayer(concatedPlayers))
+    }
+
+    const popOverRender = (picked) => {
+        return (
+            <div>
+                <p><b>Name: </b>{picked.name}</p>
+                <p><b>Pick Rate: </b>{picked.times && picked.times !== Number.POSITIVE_INFINITY ? `${(picked.times / teamList.length * 100)}%` : null}</p>
+            </div>
+        )
     }
 
     //Render column description
@@ -89,7 +101,6 @@ function MainPage() {
         <>        
             <div className="site-page-myteams">
                 <Row justify="center">
-
                     <Col lg={{ span: 11 }} xs={{ span: 22 }}>
 
                         <Card
@@ -125,9 +136,9 @@ function MainPage() {
                                
                                     <div className="most-container">
                                         <span className="text-label">Most picked player</span>
-                                        <Popover content={mostPickedPlayer(allPlayer)} title="Most picked player">
+                                        <Popover content={popOverRender(mostPicked)} title="Most picked player">
                                             <div className="picked mostPicked">               
-                                                <span>{mostPickedPlayer(allPlayer) ? getAliasName(mostPickedPlayer(allPlayer)): null }</span>                                         
+                                                <span>{mostPicked ? getAliasName(mostPicked.name): null }</span>                                         
                                             </div>
                                         </Popover>    
                                     </div>
@@ -135,9 +146,9 @@ function MainPage() {
                      
                                     <div className="less-container">
                                         <span className="text-label">Less picked player</span>
-                                        <Popover content={lessPickedPlayer(allPlayer)} title="Less picked player">
+                                        <Popover content={popOverRender(lessPicked)} title="Less picked player">
                                             <div className="picked lessPicked">
-                                                <span>{lessPickedPlayer(allPlayer) ? getAliasName(lessPickedPlayer(allPlayer)): null}</span>
+                                                <span>{lessPicked ? getAliasName(lessPicked.name): null}</span>
                                             </div> 
                                         </Popover> 
                                     </div>

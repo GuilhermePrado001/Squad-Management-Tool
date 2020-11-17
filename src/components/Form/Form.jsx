@@ -253,7 +253,6 @@ const FormComponent = () => {
 
     return (
         <>
-        <Button onClick={() => {console.log(escalationList)}}>teste</Button>
             <Form
                 form={form}
                 layout="vertical"
@@ -413,7 +412,7 @@ const FormComponent = () => {
                                 </div>) : null}
 
                             </Form.Item>
-                             {console.log(playerList)}       
+    
                             <div className="squad">
                                 {
                                     playerList.length > 0 && playerList[0].api.results !== 0 ?
